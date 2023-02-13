@@ -1,13 +1,31 @@
 'use client';
 
-import { Box, Flex, Stack, Avatar, Heading, FormControl, InputGroup, InputLeftElement, Input, InputRightElement, Button, FormHelperText, chakra } from "@chakra-ui/react";
-import Link from "next/link";
 import { useState } from "react";
+import {
+  Flex,
+  Heading,
+  Input,
+  Button,
+  InputGroup,
+  Stack,
+  InputLeftElement,
+  chakra,
+  Box,
+  Link,
+  Avatar,
+  FormControl,
+  FormHelperText,
+  InputRightElement
+} from "@chakra-ui/react";
+import { FaUserAlt, FaLock } from "react-icons/fa";
+
+const CFaUserAlt = chakra(FaUserAlt);
+const CFaLock = chakra(FaLock);
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const handleShowClick = () => setShowPassword(!showPassword);
 
+  const handleShowClick = () => setShowPassword(!showPassword);
 
   return (
     <Flex
@@ -25,7 +43,7 @@ export default function Login() {
         alignItems="center"
       >
         <Avatar bg="teal.500" />
-        <Heading color="teal.400">Welcome</Heading>
+        <Heading color="teal.400">Bienvenue</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <form>
             <Stack
@@ -38,8 +56,9 @@ export default function Login() {
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents="none"
+                    children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="email" placeholder="email address" />
+                  <Input type="email" placeholder="Adresse email" />
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -47,10 +66,11 @@ export default function Login() {
                   <InputLeftElement
                     pointerEvents="none"
                     color="gray.300"
+                    children={<CFaLock color="gray.300" />}
                   />
                   <Input
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password"
+                    placeholder="Mot de passe"
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -59,7 +79,7 @@ export default function Login() {
                   </InputRightElement>
                 </InputGroup>
                 <FormHelperText textAlign="right">
-                  <Link href={""}>forgot password?</Link>
+                  <Link>Mot de passe oublié</Link>
                 </FormHelperText>
               </FormControl>
               <Button
@@ -69,18 +89,18 @@ export default function Login() {
                 colorScheme="teal"
                 width="full"
               >
-                Login
+                Se connecter
               </Button>
             </Stack>
           </form>
         </Box>
       </Stack>
       <Box>
-        New to us?{" "}
+        Nouveau dans le coin ?{" "}
         <Link color="teal.500" href="#">
-          Sign Up
+          S'inscrire
         </Link>
       </Box>
     </Flex>
-  )
-}
+  );
+};
