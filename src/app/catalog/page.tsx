@@ -26,7 +26,7 @@ let indexMax: Promise<number> = Promise.resolve(1);
 let tableIndex: number[] = [];
 let limit = 5;
 
-export async function getArticle() {
+async function getArticle() {
   const { data, error } = await supabase.from("produit").select("*");
   return data;
 }
