@@ -11,6 +11,7 @@ import { Database } from "@/../lib/database.types";
 
 let indexPage = 1;
 let indexMax: Promise<number> = Promise.resolve(1);
+let tableIndex : number[] = [];
 
 export async function getArticle() {
   const { data, error } = await supabase.from("produit").select("*");
@@ -45,8 +46,14 @@ export default function Catalogue() {
       // Get the products for the current page
       setProducts(data.slice((index - 1) * limit, index * limit));
     });
+
+    
     indexMax = dataFetch.then((data) => {
       return Math.ceil(data.length / limit);
+    });
+    indexMax.then((data) => {
+      // Array.from(Array(data).keys()+1);
+      tableIndex = Array.from(Array(data).keys()).map((i) => i + 1);
     });
   }, [index, products.length]);
 
@@ -80,7 +87,7 @@ export default function Catalogue() {
         <Stack direction="row" justify="center" padding="10px">
           {
             // Button to swith to each page number
-            Array.from([1, 2, 3]).map((page) => (
+            Array.from(tableIndex).map((page) => (
               <Button
                 key={page}
                 onClick={() => handlePageChange(page)}
