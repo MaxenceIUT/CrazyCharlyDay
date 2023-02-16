@@ -1,13 +1,25 @@
-'use client';
+import 'server-only';
 
+import SupabaseListener from '../components/supabase-listener'
 import './globals.css'
-import { ChakraProvider } from '@chakra-ui/react'
+import createClient from '../utils/supabase-server'
+import ChakraClientProvider from '@/components/ChakraClientProvider';
 
-export default function RootLayout({
+// do not cache this layout
+export const revalidate = 0
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  const supabase = createClient()
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
   return (
     <html lang="en">
       {/*
@@ -16,9 +28,8 @@ export default function RootLayout({
       */}
       <head />
       <body>
-        <ChakraProvider>
-          {children}
-        </ChakraProvider>
+        <ChakraClientProvider children={children} />
+        <SupabaseListener accessToken={session?.access_token} />
       </body>
     </html>
   )
