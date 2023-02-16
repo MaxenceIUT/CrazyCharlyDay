@@ -2,8 +2,14 @@
 
 import { Image, Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
 
+type ArticleProps = {
+    nom: string,
+    description: string,
+    prix: number,
+    image: string
+}
 
-export default function Article(props) {
+export default function Article(props: ArticleProps) {
 
     return (
         <div>
