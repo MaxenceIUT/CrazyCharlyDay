@@ -1,5 +1,6 @@
 'use client';
 
+import Article from '../components/Article';  
 import { Inter } from '@next/font/google'
 import { Image, Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
 
