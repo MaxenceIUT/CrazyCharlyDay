@@ -8,7 +8,7 @@ import { Database } from '@/../lib/database.types'
 type Produit = Database["public"]["Tables"]["produit"]["Rows"];
 
 
-export default function articleInfo() { 
+export default function articleInfo({ params }: { params: { id: number } }) { 
 
 
 
@@ -20,7 +20,7 @@ export default function articleInfo() {
       const { data, error } = await supabase
         .from("produit")
         .select("*")
-        .eq("id", 1);
+        .eq("id", params.id);
       setProduit(data[0]);
       console.log(data);
     };
@@ -29,10 +29,10 @@ export default function articleInfo() {
 
 
   return (
-    <div className='flex px-[20%] mt-10'>
+    <div className='flex px-[10%] mt-10'>
       <div className='m-3'>
         <Box boxSize={'sm'}>
-          <Image src={'img/'+produit.id+'.jpg'} boxSize={'full'} alt='Dan Abramov' />
+          <Image src={'/img/'+params.id+'.jpg'} boxSize={'full'} alt='Dan Abramov' />
         </Box>
       </div>
       <div className='px-10'>

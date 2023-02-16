@@ -39,6 +39,7 @@ export default function Catalogue() {
   const [products, setProducts] = useState([]);
   const [index, setIndex] = useState(indexPage);
 
+
   useEffect(() => {
     dataFetch = getArticle();
     // Get the products from the database
@@ -69,10 +70,10 @@ export default function Catalogue() {
 
   return (
     <>
-        <Stack direction="row">
+        <Stack direction="row" py={10} >
           <Wrap spacing="30px" justify="center">
             {products.map((product: Database.produit) => (
-              <WrapItem key={product.id}>
+              <WrapItem key={product.id} py={5}>
                 <Article
                   id={product.id}
                   nom={product.nom}
@@ -84,7 +85,7 @@ export default function Catalogue() {
             ))}
           </Wrap>
         </Stack>
-        <Stack direction="row" justify="center" padding="10px">
+        <Stack direction="row" justify="center">
           {
             // Button to swith to each page number
             Array.from(tableIndex).map((page) => (
