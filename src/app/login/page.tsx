@@ -26,7 +26,7 @@ export default function Login() {
 
   const alreadysignin = async () => {
     const jtwl = await supabase.auth.getSession();
-    if (jtwl.data.session) router.push("/profile");
+    if (!jtwl.data.session) router.push("/profile");
   };
 
   useEffect(() => {
@@ -61,6 +61,9 @@ export default function Login() {
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Connecte toi </Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
+            Connecte toi et remplis ton panier ✌️
+          </Text>
         </Stack>
         <Box
           rounded={"lg"}
