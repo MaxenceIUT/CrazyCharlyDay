@@ -96,11 +96,6 @@ export default function Login() {
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input type={showPassword ? "text" : "password"} />
-                    <InputRightElement h={"full"}>
-                      <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                        {showPassword ? "Cacher" : "Montrer"}
-                      </Button>
-                    </InputRightElement>
                   </InputGroup>
                 </FormControl>
                 <Stack spacing={10} pt={2}>

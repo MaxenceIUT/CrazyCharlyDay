@@ -85,22 +85,14 @@ export default function Login() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                   />
-                  <InputRightElement h={"full"}>
-                    <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                      {showPassword ? "Cacher" : "Montrer"}
-                    </Button>
-                  </InputRightElement>
                 </InputGroup>
                 <FormErrorMessage>Erreur login invalides</FormErrorMessage>
               </FormControl>
               <Stack spacing={10}>
-                <Stack
-                  direction={{ base: "column", sm: "row" }}
-                  align={"start"}
-                  justify={"space-between"}
-                >
+                <div className="flex flex-col">
                   <Link color={"blue.400"}>Mot de passe oublié ?</Link>
-                </Stack>
+                  <Link color={"blue.400"} href="createAccount">Créer un compte.</Link>
+                </div>
                 <Button
                   bg={"blue.400"}
                   color={"white"}

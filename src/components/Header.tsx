@@ -22,6 +22,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  LinkOverlay
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FaMoon, FaSun, FaChevronDown, FaChevronRight } from 'react-icons/fa';
@@ -274,9 +275,9 @@ export default function Header() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  <LinkOverlay href={'login'}>
+                    <MenuItem>Se connecter</MenuItem>
+                  </LinkOverlay>
                 </MenuList>
               </Menu>
             </Stack>
