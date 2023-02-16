@@ -194,8 +194,8 @@ export default function Catalogue() {
                 nom={product.nom}
                 description={product.description}
                 prix={product.prix}
-                image={product.nom}
-              />
+                image={product.nom} 
+                categorie={product.categorie}/>
             </WrapItem>
           ))}
         </Wrap>
