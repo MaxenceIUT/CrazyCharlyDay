@@ -1,6 +1,5 @@
 'use strict';
 
-import { CartProvider, useCart } from '@/app/cart/useCart';
 import { Image, Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
 import { useState, useContext } from 'react';
 
@@ -9,7 +8,12 @@ import { useState, useContext } from 'react';
 
 export default function Article(props: any) {
 
-  
+  const [cart, setCart] = useState([]);
+
+  const addToCart = () => {
+    setCart([...cart, props]);
+    console.log(cart);
+  }
 
     return (
         <div>
@@ -38,11 +42,9 @@ export default function Article(props: any) {
               <Button variant='solid' colorScheme='blue'>
                 Acheter maintenant
               </Button>
-              <CartProvider>
                 <Button variant='ghost' colorScheme='blue' onClick={addToCart}>
                   Ajouter au panier
                 </Button>
-              </CartProvider>
             </ButtonGroup>
           </CardFooter>
         </Card>
