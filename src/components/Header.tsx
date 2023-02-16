@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -27,12 +27,18 @@ import {
 import NextLink from 'next/link';
 import Image from 'next/image';
 import { FaMoon, FaSun, FaChevronDown, FaChevronRight } from 'react-icons/fa';
+// on import l'icone panier
+import { FaShoppingCart } from 'react-icons/fa';
+import { useRecoilState} from 'recoil';
+import {cartState} from '@/../src/atoms/cartState';
 
 const SunIcon = chakra(FaSun);
 const MoonIcon = chakra(FaMoon);
 const ChevronDownIcon = chakra(FaChevronDown);
 const ChevronRightIcon = chakra(FaChevronRight);
 import logo from '@/../public/logo.png';
+import supabaseBrowser from "@/utils/supabase-browser";
+import { useRouter } from "next/navigation";
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -233,6 +239,41 @@ export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue('gray.100', 'gray.900');
+  const [cart, setCart] = useState([] as Array<any>);
+  const [cartState, setCartState] = useState([] as Array<any>);
+  const router = useRouter();
+
+  useEffect(() => {
+    let articles = [] as Array<any>;
+    const fetch = async () => {
+      const id = "0026e160-811a-44c4-97d2-77b6193da798";
+
+      const idCommande = await supabaseBrowser
+        .from("commande")
+        .select("*")
+        .eq("termine", false)
+        .eq("idUser", id);
+      if (!idCommande.data) return;
+
+      const { data, error } = await supabaseBrowser
+        .from("panier")
+        .select()
+        .eq("id_commande", idCommande.data[0].idCM);
+      if (error) return;
+      setCartState(data);
+      if (!data) return;
+      data.forEach(async (element: { id_produit: any }) => {
+        let article = await supabaseBrowser
+          .from("produit")
+          .select()
+          .eq("id", element.id_produit);
+        if (article.data) articles.push(article.data[0]);
+      });
+    };
+    fetch();
+    setCart(articles);
+    router.refresh();
+  }, []);
 
   return (
     <>
@@ -254,6 +295,33 @@ export default function Header() {
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
+
+              <Menu>
+                <MenuButton
+                  as={Button}>
+                  <FaShoppingCart/>
+                  <span className='absolute -right-1 bg-emerald-900 rounded-full text-white text-xs w-4 h-4 flex items-center justify-center'>
+                    {cart.length}</span>
+                </MenuButton>
+                <MenuList>
+                  {cart.map((item) => (
+                    <MenuItem key={item.id}>
+                      <div className='flex items-center'>
+                        <div className='flex flex-col'>
+                          <span className='font-bold'>{item.nom}</span>
+                          <span className='text-xs text-gray-400'>
+                            {item.prix}
+                          </span>
+                        </div>
+                      </div>
+                    </MenuItem>
+                  ))}
+                  <Button>
+                    <Link href='/cart'>Voir le panier</Link>
+                  </Button>
+                </MenuList>
+              </Menu>
+              
               <Stack direction='row' spacing={4} align='center'>
                 <Button as={NextLink} href="/login" colorScheme='teal' variant='solid'>
                   Se connecter

@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 // on import l'icon basket
 import { FaShoppingBasket } from "react-icons/fa";
 // on import icon like
-import { FaHeart } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import supabaseBrowser from "@/utils/supabase-browser";
 import { useState } from "react";
 
@@ -32,20 +32,20 @@ type ArticleProps = {
   id: number;
   categorie: number;
   nom: string;
-  description: string | null;
+  quantite: number;
   prix: number;
   image: string;
+  trashedFonction: any;
 };
 
 export default function Article(props: ArticleProps) {
   const router = useRouter();
 
-  //tableau d'articles
   const [cart, setCart] = useState([]) as any;
 
   const addToCart = async () => {
     if (props.categorie == 1) {
-      router.push("/produit/" + props.id);
+      router.push("/articleInfo/" + props.id);
     } else {
       const jtwl = await supabaseBrowser.auth.getSession();
       if (!jtwl.data.session) return;
@@ -64,7 +64,7 @@ export default function Article(props: ArticleProps) {
         if (!data) return;
         idCM = data[0].idCM;
       } else {
-        if (!data[0].idCM) return;
+        if (!data) return;
         idCM = data[0].idCM;
       }
       // setCart(prevState => [...cart, props]);
@@ -74,8 +74,7 @@ export default function Article(props: ArticleProps) {
         .eq("id_commande", idCM)
         .eq("id_produit", props.id);
 
-      if (!dataPanier.data) return;
-      if (dataPanier.data[0] && dataPanier.data.length > 0) {
+      if (dataPanier.data && dataPanier.data.length > 0) {
         if (!dataPanier.data[0].quantite) return;
         const { data, error } = await supabaseBrowser
           .from("panier")
@@ -88,10 +87,8 @@ export default function Article(props: ArticleProps) {
           .insert({ id_commande: idCM, id_produit: props.id, quantite: 1 })
           .select();
         if (!panier.data) return;
-        if (!cart) return;
         const array = cart.push(panier.data[0]);
         setCart(array);
-
       }
     }
   };
@@ -99,9 +96,9 @@ export default function Article(props: ArticleProps) {
   return (
     <div>
       <LinkBox>
-        <Card maxW="sm" className="hover:drop-shadow-lg">
-          <CardBody>
-            <LinkOverlay href={"produit/" + props.id}>
+        <LinkOverlay>
+          <Card maxW="sm" className="hover:drop-shadow-lg">
+            <CardBody>
               <div className="w-[100%] flex justify-center">
                 <Image
                   src={"img/" + props.id + ".png"}
@@ -110,28 +107,36 @@ export default function Article(props: ArticleProps) {
                   height="250px"
                 />
               </div>
-            </LinkOverlay>
-
-            <Stack mt="6" spacing="3">
-              <Heading size="md" minH="3em">
-                {props.nom}
-              </Heading>
-              <div className="h-24">
-                <Text noOfLines={4}>{props.description}</Text>
-              </div>
-              <Text color="blue.600" fontSize="2xl">
-                {props.prix}€
-              </Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter className="items-center justify-around">
-            <Text mr={2}>Ajouter directement au panier</Text>
-            <Button variant="solid" colorScheme="blue" onClick={addToCart}>
-              <FaShoppingBasket />
-            </Button>
-          </CardFooter>
-        </Card>
+              <Stack mt="6" spacing="3">
+                <Heading size="md" minH="3em">
+                  {props.nom}
+                </Heading>
+                <div className="h-12">
+                  <Text noOfLines={4}>
+                    Il y en a {props.quantite} dans le panier
+                  </Text>
+                </div>
+                <Text color="blue.600" fontSize="2xl">
+                  {props.prix}€
+                </Text>
+              </Stack>
+            </CardBody>
+            <Divider />
+            <CardFooter className="items-center justify-around">
+              <Text mr={2}>Ajouter directement au panier</Text>
+              <Button variant="solid" colorScheme="blue" onClick={addToCart}>
+                <FaShoppingBasket />
+              </Button>
+              <Button
+                variant="solid"
+                colorScheme="red"
+                onClick={props.trashedFonction}
+              >
+                <FaTrash />
+              </Button>
+            </CardFooter>
+          </Card>
+        </LinkOverlay>
       </LinkBox>
     </div>
   );
