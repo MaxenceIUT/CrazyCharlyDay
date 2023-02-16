@@ -27,14 +27,17 @@ export interface Database {
         Row: {
           idCM: number
           idUser: string | null
+          termine: boolean
         }
         Insert: {
           idCM?: number
           idUser?: string | null
+          termine?: boolean
         }
         Update: {
           idCM?: number
           idUser?: string | null
+          termine?: boolean
         }
       }
       panier: {
@@ -97,19 +100,21 @@ export interface Database {
       }
       profile: {
         Row: {
+          admin: boolean
           id: string
           nom: string | null
           prenom: string | null
           telephone: string | null
-          admin : boolean
         }
         Insert: {
+          admin?: boolean
           id: string
           nom?: string | null
           prenom?: string | null
           telephone?: string | null
         }
         Update: {
+          admin?: boolean
           id?: string
           nom?: string | null
           prenom?: string | null

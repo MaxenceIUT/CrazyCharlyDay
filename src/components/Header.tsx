@@ -27,6 +27,7 @@ import {
 import Image from "next/image";
 import { FaMoon, FaSun, FaChevronDown, FaChevronRight } from "react-icons/fa";
 import supabase from "@/utils/supabase-browser";
+import { Database } from "lib/database.types";
 
 const SunIcon = chakra(FaSun);
 const MoonIcon = chakra(FaMoon);
@@ -34,17 +35,24 @@ const ChevronDownIcon = chakra(FaChevronDown);
 const ChevronRightIcon = chakra(FaChevronRight);
 import logo from "@/../public/logo.png";
 
-
-
-
-async function getProfile() {
+async function getProfileId() {
   const jtwl = await supabase.auth.getSession();
-  return jtwl?.user;
+  if (jtwl === null) return null;
+  return jtwl?.data?.session?.user?.id;
+}
+
+async function isAdmin(string: string) {
+  const { data, error } = await supabase
+    .from("profile")
+    .select("id")
+    .eq("admin", true);
+  if (data) {
+    return true;
+  }
+  return false;
 }
 
 // Type of jtwl.user
-
-
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -259,33 +267,36 @@ let NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
-export default function Header() {
+export default async function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue("gray.100", "gray.900");
-  let user: any;
+  let idUser: any;
 
   useEffect(() => {
-    user = getProfile();
-    console.log(user);
-    if (user && user.admin === true) {
-      NAV_ITEMS = [
-        ...NAV_ITEMS,
-        {
-          label: "Admin",
-          children: [
-            {
-              label: "Ajouter un produit",
-              subLabel: "Ajouter un produit à la base de données",
-              href: "/admin/add-product",
-            }
-          ],
-        },
-      ];
+    async function fetchData() {
+      const idUser = getProfileId();
+      console.log(idUser);
+      let isAdminRes = await isAdmin(idUser);
+      console.log(isAdminRes);
+      if (isAdminRes) {
+        NAV_ITEMS = [
+          ...NAV_ITEMS,
+          {
+            label: "Admin",
+            children: [
+              {
+                label: "Ajouter un produit",
+                subLabel: "Ajouter un produit à la base de données",
+                href: "/admin/add-product",
+              },
+            ],
+          },
+        ];
+      }
     }
-  }
-  , []);
-
+    fetchData();
+  }, []);
 
   return (
     <>
