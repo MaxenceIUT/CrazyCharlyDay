@@ -27,7 +27,7 @@ import { useRouter } from "next/navigation";
 
 type Profile = Database["public"]["Tables"]["profile"]["Row"];
 
-export default function profile() {
+export default function Profile() {
   const router = useRouter();
 
   const [profile, setProfile] = useState({
