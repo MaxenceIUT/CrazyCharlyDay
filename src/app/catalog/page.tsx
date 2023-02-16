@@ -3,7 +3,6 @@
 import {
   Button,
   chakra,
-  Container,
   FormControl,
   Input,
   InputGroup,
@@ -28,7 +27,6 @@ import { FaSearch } from "react-icons/fa";
 import { Database } from "lib/database.types";
 const CFaSearch = chakra(FaSearch);
 
-let indexPage = 1;
 let indexMax: Promise<number> = Promise.resolve(1);
 let tableIndex: number[] = [];
 let limit = 5;
@@ -54,17 +52,23 @@ function updateNumberPages() {
 
 export default function Catalogue() {
   const [products, setProducts] = useState([] as Array<Produit>);
-  const [index, setIndex] = useState(indexPage);
+  const [index, setIndex] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [visible, setVisible] = useState(true);
 
   const searchParam = useSearchParams();
+  const page = searchParam.get("page");
+
+
   useEffect(() => {
-    const page = searchParam.get("page");
+    let indextemp = 1;
     if (page !== null) {
-      console.log("page: " + page);
-      setIndex(parseInt(page as string));
+      indextemp = parseInt(page);
+      setIndex((curr) => {
+        return parseInt(page);
+      });
     }
+    
 
     dataFetch = getArticle();
     if (dataFetch === null) {
@@ -74,9 +78,8 @@ export default function Catalogue() {
     // Get the products from the database
     dataFetch.then((data) => {
       if (data === null) return;
-
       // Get the products for the current page
-      setProducts(data.slice((index - 1) * limit, index * limit));
+      setProducts(data.slice((indextemp - 1) * limit, indextemp * limit));
     });
 
     updateNumberPages();
@@ -134,7 +137,6 @@ export default function Catalogue() {
             />
           </InputGroup>
         </FormControl>
-
 
         <Wrap spacing="30px" justify="center">
           {products.map((product: Produit) => (
