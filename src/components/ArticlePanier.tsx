@@ -26,6 +26,7 @@ import { FaShoppingBasket } from "react-icons/fa";
 // on import icon like
 import { FaTrash } from "react-icons/fa";
 import supabaseBrowser from "@/utils/supabase-browser";
+import { useState } from "react";
 
 type ArticleProps = {
   id: number;
@@ -40,7 +41,7 @@ type ArticleProps = {
 export default function Article(props: ArticleProps) {
   const router = useRouter();
 
-  const [cart, setCart] = useRecoilState(cartState);
+  const [cart, setCart] = useState([]) as any;
 
   const addToCart = async () => {
     if (props.categorie == 1) {
@@ -86,7 +87,8 @@ export default function Article(props: ArticleProps) {
           .insert({ id_commande: idCM, id_produit: props.id, quantite: 1 })
           .select();
         if (!panier.data) return;
-        setCart((prevState) => [...cart, panier.data[0]]);
+        const array = cart.push(panier.data[0]);
+        setCart(array);
       }
     }
   };
