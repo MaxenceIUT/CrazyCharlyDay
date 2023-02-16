@@ -16,10 +16,17 @@ import {
   InputRightElement,
   InputGroup,
   FormErrorMessage,
+  chakra,
 } from "@chakra-ui/react";
 
+import NextLink from "next/link";
 import supabase from "@/utils/supabase-browser";
 import { useRouter } from "next/navigation";
+
+import { FaEyeSlash, FaEye } from "react-icons/fa";
+
+const HideIcon = chakra(FaEyeSlash);
+const ShowIcon = chakra(FaEye);
 
 export default function Login() {
   const router = useRouter();
@@ -48,16 +55,16 @@ export default function Login() {
 
   return (
     <Flex
-      minH={"100vh"}
       align={"center"}
       justify={"center"}
+      py='12'
       bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Connecte toi </Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            Connecte toi et remplis ton panier ✌️
+            Connecte toi et remplis ton panier de bons produits ✌️
           </Text>
         </Stack>
         <Box
@@ -85,6 +92,11 @@ export default function Login() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                   />
+                  <InputRightElement h={"full"} marginRight="1">
+                    <Button size="sm" onClick={handleShowClick}>
+                      {showPassword ? <HideIcon /> : <ShowIcon />}
+                    </Button>
+                  </InputRightElement>
                 </InputGroup>
                 <FormErrorMessage>Erreur login invalides</FormErrorMessage>
               </FormControl>
@@ -104,6 +116,11 @@ export default function Login() {
                 >
                   Se connecter
                 </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={"center"}>
+                  Pas encore inscrit ? <Link as={NextLink} href="/register" color={"blue.400"}>S'inscrire</Link>
+                </Text>
               </Stack>
             </Stack>
           </form>

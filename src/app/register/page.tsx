@@ -19,7 +19,13 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import supabase from "@/utils/supabase-browser";
+import NextLink from "next/link";
 import { useRouter } from "next/navigation";
+
+import { FaEyeSlash, FaEye } from "react-icons/fa";
+
+const HideIcon = chakra(FaEyeSlash);
+const ShowIcon = chakra(FaEye);
 
 export default function Login() {
   const router = useRouter();
@@ -63,8 +69,8 @@ export default function Login() {
               <Heading fontSize={"4xl"} textAlign={"center"}>
                 Créer un compte
               </Heading>
-              <Text fontSize={"lg"} color={"gray.600"}>
-                Prépare toi à avoir ton compte ✌️
+              <Text fontSize={"lg"} color={"gray.600"}  textAlign="center">
+                Prépare toi à rejoindre ta référence locale en matière d'environnement et de « Good Food » ✌️
               </Text>
             </Stack>
             <Box
@@ -89,13 +95,18 @@ export default function Login() {
                   </Box>
                 </HStack>
                 <FormControl id="email" isRequired>
-                  <FormLabel>Email address</FormLabel>
+                  <FormLabel>Adresse email</FormLabel>
                   <Input type="email" id="email" />
                 </FormControl>
                 <FormControl id="password" isRequired>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Mot de passe</FormLabel>
                   <InputGroup>
                     <Input type={showPassword ? "text" : "password"} />
+                    <InputRightElement h={"full"} marginRight="1">
+                      <Button size="sm" onClick={handleShowClick}>
+                        {showPassword ? <HideIcon/> : <ShowIcon/>}
+                      </Button>
+                    </InputRightElement>
                   </InputGroup>
                 </FormControl>
                 <Stack spacing={10} pt={2}>
@@ -115,7 +126,7 @@ export default function Login() {
 
                 <Stack pt={6}>
                   <Text align={"center"}>
-                    Déjà un compte ? <Link href="/login" color={"blue.400"}>Connexion</Link>
+                    Déjà un compte ? <Link as={NextLink} href="/login" color={"blue.400"}>Se connecter</Link>
                   </Text>
                 </Stack>
               </Stack>

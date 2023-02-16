@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
   if (session) {
     if (
       req.nextUrl.pathname.startsWith("/login") ||
-      req.nextUrl.pathname.startsWith("/createAccount")
+      req.nextUrl.pathname.startsWith("/register")
     ) {
       const url = req.nextUrl.clone();
       url.pathname = "/profile";

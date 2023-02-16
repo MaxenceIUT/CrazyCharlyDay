@@ -295,6 +295,7 @@ export default function Header() {
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
+
               <Menu>
                 <MenuButton
                   as={Button}>
@@ -319,9 +320,16 @@ export default function Header() {
                     <Link href='/cart'>Voir le panier</Link>
                   </Button>
                 </MenuList>
-                  
               </Menu>
               
+              <Stack direction='row' spacing={4} align='center'>
+                <Button as={NextLink} href="/login" colorScheme='teal' variant='solid'>
+                  Se connecter
+                </Button>
+                <Button as={NextLink} href="/register" colorScheme='teal' variant='outline'>
+                  S'inscrire
+                </Button>
+              </Stack>
               <Menu>
                 <MenuButton
                   as={Button}
