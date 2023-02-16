@@ -38,7 +38,7 @@ export default function articleInfo({ params }: { params: { id: number } }) {
   }, []);
 
   return (
-    <div className="flex mt-10 bg-[#f3f3f3] mx-60 py-10 pr-10">
+    <div className="flex mt-10 mx-20 py-10 pr-10">
       <div className="m-3 h-[100%] items-center flex">
         <Box boxSize={"sm"}>
           <Image
