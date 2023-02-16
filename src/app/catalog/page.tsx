@@ -13,7 +13,6 @@ import {
   WrapItem,
   Menu,
   MenuButton,
-  ChevronDownIcon,
   MenuList,
   MenuItem
 } from "@chakra-ui/react";

@@ -35,9 +35,9 @@ export default function articleInfo() {
           <Image src={'img/'+produit.id+'.jpg'} boxSize={'full'} alt='Dan Abramov' />
         </Box>
       </div>
-      <div className='px-10'>
+      <div className=''>
         <Text fontSize='2xl' py={[6]}>{produit.nom}</Text>
-        <Heading size='lg' mb={[4]} ml={[4]}>€{produit.prix}</Heading>
+        <Heading size='lg'>€{produit.prix}</Heading>
 
         <div className=''>
           <Heading size='md' my={[2]}>Description</Heading>

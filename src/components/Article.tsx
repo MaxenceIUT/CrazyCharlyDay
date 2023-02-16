@@ -4,6 +4,8 @@ import { Image, Popover, LinkBox, LinkOverlay,  Text, Box, Button, ButtonGroup, 
 import { useRouter } from 'next/navigation'
 // on import l'icon basket
 import { FaShoppingBasket } from 'react-icons/fa'
+// on import icon like
+import { FaHeart } from 'react-icons/fa'
 
 type ArticleProps = {
   id: number,
