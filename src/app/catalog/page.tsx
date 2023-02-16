@@ -11,6 +11,11 @@ import {
   Stack,
   Wrap,
   WrapItem,
+  Menu,
+  MenuButton,
+  ChevronDownIcon,
+  MenuList,
+  MenuItem
 } from "@chakra-ui/react";
 
 import { useSearchParams } from "next/navigation";
@@ -130,10 +135,13 @@ export default function Catalogue() {
             />
           </InputGroup>
         </FormControl>
+
+
         <Wrap spacing="30px" justify="center">
           {products.map((product: Produit) => (
-            <WrapItem key={product.id}>
+            <WrapItem key={product.id} py={5}>
               <Article
+                id={product.id}
                 nom={product.nom}
                 description={product.description}
                 prix={product.prix}
