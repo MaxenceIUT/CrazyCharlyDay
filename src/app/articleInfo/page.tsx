@@ -4,13 +4,13 @@ import { Image, Text, Box, Heading, Button, ButtonGroup, FormControl, FormLabel,
 
 
 
-export default function articleInfo() {
+export default function articleInfo({ params }: { params: { id: number } }) {
     
   return (
     <div className='flex px-[20%] mt-10'>
       <div className='m-3'>
         <Box boxSize={'sm'}>
-          <Image src='https://bit.ly/dan-abramov' boxSize={'full'} alt='Dan Abramov' />
+          <Image src='img/1.jpg' boxSize={'full'} alt='Dan Abramov' />
         </Box>
       </div>
       <div className='px-10'>
