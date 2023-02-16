@@ -2,8 +2,11 @@
 
 import { Image, Popover, LinkBox, LinkOverlay,  Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
+// on import l'icon basket
+import { FaShoppingBasket } from 'react-icons/fa'
 
 type ArticleProps = {
+  id: number,
   nom: string,
   description: string,
   prix: number,
@@ -43,9 +46,10 @@ export default function Article(props: ArticleProps) {
                     </Stack>
                   </CardBody>
                   <Divider />
-                  <CardFooter>
+                  <CardFooter className="items-center justify-around">
+                    <Text mr={2}>Ajouter directement au panier</Text>
                     <Button variant='solid' colorScheme='blue'>
-                      Ajouter au panier
+                      <FaShoppingBasket />
                     </Button>
                   </CardFooter>
               </Card>

@@ -121,8 +121,9 @@ export default function Catalogue() {
         </FormControl>
         <Wrap spacing="30px" justify="center">
           {products.map((product: Produit) => (
-            <WrapItem key={product.id}>
+            <WrapItem key={product.id} py={5}>
               <Article
+                id={product.id}
                 nom={product.nom}
                 description={product.description}
                 prix={product.prix}
