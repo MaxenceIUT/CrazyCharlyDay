@@ -43,7 +43,7 @@ export default function Login() {
         alignItems="center"
       >
         <Avatar bg="teal.500" />
-        <Heading color="teal.400">Bienvenue</Heading>
+        <Heading color="teal.400">Créer votre compte</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <form>
             <Stack
@@ -72,15 +72,20 @@ export default function Login() {
                     type={showPassword ? "text" : "password"}
                     placeholder="Mot de passe"
                   />
-                  <InputRightElement width="4.5rem">
-                    <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                      {showPassword ? "Hide" : "Show"}
-                    </Button>
-                  </InputRightElement>
                 </InputGroup>
-                <FormHelperText textAlign="right">
-                  <Link>Mot de passe oublié</Link>
-                </FormHelperText>
+              </FormControl>
+              <FormControl>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    color="gray.300"
+                    children={<CFaLock color="gray.300" />}
+                  />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Confirmation du mot de passe"
+                  />
+                </InputGroup>
               </FormControl>
               <Button
                 borderRadius={0}
@@ -89,16 +94,16 @@ export default function Login() {
                 colorScheme="teal"
                 width="full"
               >
-                Se connecter
+                Créer un compte
               </Button>
             </Stack>
           </form>
         </Box>
       </Stack>
       <Box>
-        Nouveau dans le coin ?{" "}
-        <Link color="teal.500" href="../createAccount">
-          S'inscrire
+        Vous possédez déjà un compte ?{" "}
+        <Link color="teal.500" href="../login">
+          Se Connecter.
         </Link>
       </Box>
     </Flex>
