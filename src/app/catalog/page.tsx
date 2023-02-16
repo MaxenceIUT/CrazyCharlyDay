@@ -11,6 +11,11 @@ import {
   Stack,
   Wrap,
   WrapItem,
+  Menu,
+  MenuButton,
+  ChevronDownIcon,
+  MenuList,
+  MenuItem
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
@@ -119,6 +124,8 @@ export default function Catalogue() {
             />
           </InputGroup>
         </FormControl>
+
+
         <Wrap spacing="30px" justify="center">
           {products.map((product: Produit) => (
             <WrapItem key={product.id} py={5}>
