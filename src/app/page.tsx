@@ -166,8 +166,8 @@ export default function Home() {
               </TestimonialContent>
               <TestimonialAvatar
                 src={"https://avatars.dicebear.com/api/male/michelle.svg"}
-                name={"Jane Cooper"}
-                title={"Stephanie Gounant"}
+                name={"Stephanie Gounant"}
+                title={""}
               />
             </Testimonial>
             <Testimonial>
