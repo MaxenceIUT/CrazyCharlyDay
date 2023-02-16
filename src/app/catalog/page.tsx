@@ -12,6 +12,8 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
+
+import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 import Article from "@/components/Article";
@@ -52,7 +54,14 @@ export default function Catalogue() {
   const [searchInput, setSearchInput] = useState("");
   const [visible, setVisible] = useState(true);
 
+  const searchParam = useSearchParams();
   useEffect(() => {
+    const page = searchParam.get("page");
+    if (page !== null) {
+      console.log("page: " + page);
+      setIndex(parseInt(page as string));
+    }
+
     dataFetch = getArticle();
     if (dataFetch === null) {
       return;
@@ -67,17 +76,18 @@ export default function Catalogue() {
     });
 
     updateNumberPages();
-  }, [index, products.length]);
+  }, []);
 
   function handleInputChange(page: number) {
     // Get the products for the current page
     dataFetch.then((data) => {
       if (data === null) return;
-      else
-        setProducts(data.slice((page - 1) * limit, page * limit));
+      else setProducts(data.slice((page - 1) * limit, page * limit));
     });
     setIndex(page);
     window.scrollTo(0, 0);
+    // Change href without reloading the page
+    window.history.pushState({}, "", `?page=${page}`);
   }
 
   function handleSearch(searchInput: string) {
@@ -87,7 +97,8 @@ export default function Catalogue() {
       return setProducts(
         data.filter((product) =>
           product.nom
-            .match(searchInput)
+            .toLocaleLowerCase()
+            .match(searchInput.toLowerCase())
             ?.slice((index - 1) * limit, index * limit)
         )
       );
@@ -144,7 +155,8 @@ export default function Catalogue() {
             <Button
               key={page}
               onClick={() => handleInputChange(page)}
-              colorScheme="teal"
+              variant={page === index ? "solid" : "outline"}
+              type="button"
             >
               {page}
             </Button>
