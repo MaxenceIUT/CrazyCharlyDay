@@ -24,31 +24,26 @@ import { useRouter } from "next/navigation";
 export default function Login() {
   const router = useRouter();
 
-  const alreadysignin = async () => {
-    const jtwl = await supabase.auth.getSession();
-    if (!jtwl.data.session) router.push("/profile");
-  };
-
-  useEffect(() => {
-    alreadysignin();
-  }, []);
-
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError(false);
+    setLoading(true);
     console.log(e.target.email.value);
     console.log(e.target.password.value);
     const { error } = await supabase.auth.signInWithPassword({
       email: e.target.email.value,
       password: e.target.password.value,
     });
-    if (error) setError(true);
-    else router.push("/profile");
+    if (error) {
+      setError(true);
+      setLoading(false);
+    } else router.push("/profile");
   };
 
   return (
@@ -74,7 +69,7 @@ export default function Login() {
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <FormControl id="email" isRequired>
-                <FormLabel>Email address</FormLabel>
+                <FormLabel>Adresse email</FormLabel>
                 <Input
                   type="email"
                   id="email"
@@ -83,29 +78,21 @@ export default function Login() {
                 />
               </FormControl>
               <FormControl id="password" isRequired isInvalid={error}>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Mot de passe</FormLabel>
                 <InputGroup>
                   <Input
                     errorBorderColor="red.300"
                     id="password"
                     type={showPassword ? "text" : "password"}
                   />
-                  <InputRightElement h={"full"}>
-                    <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                      {showPassword ? "Hide" : "Show"}
-                    </Button>
-                  </InputRightElement>
                 </InputGroup>
                 <FormErrorMessage>Erreur login invalides</FormErrorMessage>
               </FormControl>
               <Stack spacing={10}>
-                <Stack
-                  direction={{ base: "column", sm: "row" }}
-                  align={"start"}
-                  justify={"space-between"}
-                >
-                  <Link color={"blue.400"}>Forgot password?</Link>
-                </Stack>
+                <div className="flex flex-col">
+                  <Link color={"blue.400"}>Mot de passe oublié ?</Link>
+                  <Link color={"blue.400"} href="createAccount">Créer un compte.</Link>
+                </div>
                 <Button
                   bg={"blue.400"}
                   color={"white"}
@@ -113,8 +100,9 @@ export default function Login() {
                     bg: "blue.500",
                   }}
                   type="submit"
+                  isLoading={loading}
                 >
-                  Sign in
+                  Se connecter
                 </Button>
               </Stack>
             </Stack>

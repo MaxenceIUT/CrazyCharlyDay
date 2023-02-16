@@ -6,19 +6,13 @@ import {
   Button,
   InputGroup,
   Stack,
-  chakra,
   Box,
-  Link,
   Text,
   useColorModeValue,
   HStack,
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock, FaPhoneAlt } from "react-icons/fa";
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
-const PhoneIcon = chakra(FaPhoneAlt);
 import { Database } from "lib/database.types";
 
 import { useEffect, useState } from "react";
@@ -151,13 +145,7 @@ export default function Profile() {
                   </Button>
                 </Stack>
 
-                <Stack pt={6}>
-                  <Text align={"center"}>
-                    Déjà inscrit ? <Link onClick={() => {
-                        router.push('/login')
-                    }} color={"blue.400"}>Login</Link>
-                  </Text>
-                </Stack>
+                
               </Stack>
             </Box>
           </Stack>

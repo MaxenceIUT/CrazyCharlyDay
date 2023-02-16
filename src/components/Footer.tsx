@@ -46,7 +46,7 @@ const SocialButton = ({
 export default function SmallCentered() {
   return (
     <footer className="mt-auto">
-    <Box mt={20}
+    <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}>
       <Container
@@ -57,7 +57,7 @@ export default function SmallCentered() {
         justify={'center'}
         align={'center'}>
         <Box boxSize='60px'>
-          <Image src='logo.png' alt='Dan Abramov' />
+          <Image src='/logo.png' alt='Logo de Court-Circuit Nancy' />
         </Box>
         <Stack direction={'row'} spacing={6}>
           <Link href='/'>Accueil</Link>
@@ -84,9 +84,6 @@ export default function SmallCentered() {
           <Stack direction={'row'} spacing={6}>
             <SocialButton label={'FaceBook'} href={'https://www.facebook.com/courtcircuitVoltaire/'}>
               <FaFacebook />
-            </SocialButton>
-            <SocialButton label={'YouTube'} href={'#'}>
-              <FaYoutube />
             </SocialButton>
             <SocialButton label={'Instagram'} href={'https://www.instagram.com/court_circuit_nancy/'}>
               <FaInstagram />

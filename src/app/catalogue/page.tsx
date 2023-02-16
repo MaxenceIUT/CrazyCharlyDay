@@ -13,19 +13,20 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  Checkbox
 } from "@chakra-ui/react";
 
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-
 import Article from "@/components/Article";
-
 import supabase from "@/utils/supabase-browser";
-import { createClient } from "@supabase/supabase-js";
-import { Database } from "@/../lib/database.types";
-import { RecoilRoot } from "recoil";
+
 import { FaSearch } from "react-icons/fa";
+// on import le l'icon validé
+import { FaCheck } from "react-icons/fa";
+
+import { Database } from "lib/database.types";
 const CFaSearch = chakra(FaSearch);
 
 let indexMax: Promise<number> = Promise.resolve(1);
@@ -59,6 +60,13 @@ export default function Catalogue() {
 
   const searchParam = useSearchParams();
   const page = searchParam.get("page");
+
+  
+  const [showBoisson, setShowBoisson] = useState(true);
+  const [showChocolat, setShowChocolat] = useState(true);
+  const [showDroguerie, setShowDroguerie] = useState(true);
+  const [showCosmetique, setShowCosmetique] = useState(true);
+  const [showFromage, setShowFromage] = useState(true);
 
 
   useEffect(() => {
@@ -102,24 +110,45 @@ export default function Catalogue() {
     // Get the products for the current page
     dataFetch.then((data) => {
       if (data === null) return;
-      return setProducts(
-        data.filter((product) =>
-          product.nom
-            .toLocaleLowerCase()
-            .match(searchInput.toLowerCase())
-            ?.slice((index - 1) * limit, index * limit)
-        )
-      );
+
+      let d = data.filter((product) =>
+        product.nom
+          .toLocaleLowerCase()
+          .match(searchInput.toLowerCase())
+        );
+      setProducts(d);
     });
-    updateNumberPages();
 
     if (searchInput === "" || searchInput === null) {
+      dataFetch.then((data) => {
+        if (data === null) return;
+        setProducts(data.slice((index - 1) * limit, index * limit));
+      });
       setVisible(true);
     } else {
       setVisible(false);
     }
+  }
 
-    console.log(searchInput);
+  function searchCheckedItem() {
+    dataFetch.then((data) => {
+      if (data === null) return;
+
+
+      let d = data.filter((product) => {
+        if ((!showBoisson && product.categorie === 2) ||
+            (!showChocolat && product.categorie === 1) ||
+            (!showDroguerie && product.categorie === 3) ||
+            (!showCosmetique && product.categorie === 4) ||
+            (!showFromage && product.categorie === 5)
+            ) {
+          console.log("on affiche pas le produit: " + product.nom + " car il est de la catégorie: " + product.categorie + "")
+          return false;
+        }
+        return true;
+      });
+      setProducts(d);
+    });
   }
 
   return (
@@ -138,13 +167,30 @@ export default function Catalogue() {
             />
           </InputGroup>
         </FormControl>
+        <Stack spacing={5} direction='row' pl={40}>
+          <Checkbox colorScheme='blue' defaultChecked isChecked={showBoisson} onChange={(e) => setShowBoisson(e.target.checked)}>
+            Boisson
+          </Checkbox>
+          <Checkbox colorScheme='blue' defaultChecked isChecked={showChocolat} onChange={(e) => setShowChocolat(e.target.checked)}>
+            Épicerie
+          </Checkbox>
+          <Checkbox colorScheme='blue' defaultChecked isChecked={showDroguerie} onChange={(e) => setShowDroguerie(e.target.checked)}>
+            Droguerie
+          </Checkbox>
+          <Checkbox colorScheme='blue' defaultChecked isChecked={showCosmetique} onChange={(e) => setShowCosmetique(e.target.checked)}>
+            Cosmétique
+          </Checkbox>
+          <Checkbox colorScheme='blue' defaultChecked isChecked={showFromage} onChange={(e) => setShowFromage(e.target.checked)}>
+            Fromage
+          </Checkbox>
+          <Button onClick={searchCheckedItem}><FaCheck /></Button>
+        </Stack>
 
         <Wrap spacing="30px" justify="center">
           {products.map((product: Produit) => (
             <WrapItem key={product.id} py={5}>
               <Article
                 id={product.id}
-                categorie={product.categorie}
                 nom={product.nom}
                 description={product.description}
                 prix={product.prix}

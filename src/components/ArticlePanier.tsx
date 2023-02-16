@@ -31,7 +31,7 @@ export default function Article(props: ArticleProps) {
       router.push('/articleInfo/' + props.id);
     } else {
       const jtwl = await supabaseBrowser.auth.getSession();
-      const id = '0026e160-811a-44c4-97d2-77b6193da798';
+      const id = jtwl.data.session.user.id;
       let idCM = '';
       const { data, error } = await supabaseBrowser.from('commande').select('*').eq('termine', false).eq('idUser', id);
       if (!data || data.length == 0) {
@@ -65,7 +65,7 @@ export default function Article(props: ArticleProps) {
             <CardBody>
               <div className="w-[100%] flex justify-center">
                 <Image
-                  src={'img/' + props.id + '.jpg'}
+                  src={'img/' + props.id + '.png'}
                   alt='Green double couch with wooden legs'
                   borderRadius='lg'
                   height='250px'

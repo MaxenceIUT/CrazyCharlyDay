@@ -22,7 +22,9 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  LinkOverlay
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import Image from 'next/image';
 import { FaMoon, FaSun, FaChevronDown, FaChevronRight } from 'react-icons/fa';
 // on import l'icone panier
@@ -40,6 +42,7 @@ import { useRouter } from "next/navigation";
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
+    as={NextLink}
     px={2}
     py={1}
     rounded={'md'}
@@ -64,6 +67,7 @@ const DesktopNav = () => {
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
               <Link
+                as={NextLink}
                 p={2}
                 href={navItem.href ?? '#'}
                 fontSize={'sm'}
@@ -102,6 +106,7 @@ const DesktopNav = () => {
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
     <Link
+      as={NextLink}
       href={href}
       role={'group'}
       display={'block'}
@@ -186,7 +191,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           align={'start'}>
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Link key={child.label} py={2} href={child.href} as={NextLink}>
                 {child.label}
               </Link>
             ))}
@@ -275,7 +280,9 @@ export default function Header() {
       <Box backgroundColor={bgColor} px={4}>
         <Flex h={24} alignItems={'center'} justifyContent={'space-between'}>
           <Flex className="w-full h-full">
-            <Image className='w-24 h-24 object-contain' src={logo} alt={'logo'} width={110} height={110} />
+            <Link href="/" as={NextLink}>
+              <Image className='w-24 h-24 object-contain' src={logo} alt={'logo'} width={110} height={110} />
+            </Link>
 
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />
@@ -341,9 +348,9 @@ export default function Header() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  <LinkOverlay href={'login'}>
+                    <MenuItem>Se connecter</MenuItem>
+                  </LinkOverlay>
                 </MenuList>
               </Menu>
             </Stack>

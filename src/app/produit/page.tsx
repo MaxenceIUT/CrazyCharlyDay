@@ -20,9 +20,9 @@ import { useState, useEffect } from "react";
 import supabase from "@/utils/supabase-browser";
 import { Database } from "@/../lib/database.types";
 
-type Produit = Database["public"]["Tables"]["produit"]["Rows"];
+type Produit = Database["public"]["Tables"]["produit"]["Row"];
 
-export default function ArticleInfo({ params }: { params: { id: number } }) {
+export default function Produit() {
   const [produit, setProduit] = useState({} as Produit);
 
   useEffect(() => {
@@ -30,31 +30,29 @@ export default function ArticleInfo({ params }: { params: { id: number } }) {
       const { data, error } = await supabase
         .from("produit")
         .select("*")
-        .eq("id", params.id);
+        .eq("id", 1);
+      if (data == null) return;
       setProduit(data[0]);
-      console.log(data);
     };
     fetchProduit();
   }, []);
 
   return (
-    <div className="flex mt-10 bg-[#f3f3f3] mx-60 py-10 pr-10">
-      <div className="m-3 h-[100%] items-center flex">
+    <div className="flex px-[20%] mt-10">
+      <div className="m-3">
         <Box boxSize={"sm"}>
           <Image
-            src={"/img/" + params.id + ".jpg"}
+            src={"img/" + produit.id + ".png"}
             boxSize={"full"}
             alt="Dan Abramov"
           />
         </Box>
       </div>
-      <div className="px-10">
+      <div className="">
         <Text fontSize="2xl" py={[6]}>
           {produit.nom}
         </Text>
-        <Heading size="lg" mb={[4]}>
-          €{produit.prix}
-        </Heading>
+        <Heading size="lg">€{produit.prix}</Heading>
 
         <div className="">
           <Heading size="md" my={[2]}>
@@ -72,26 +70,15 @@ export default function ArticleInfo({ params }: { params: { id: number } }) {
         </div>
 
         <div className="flex items-center">
-          {produit.categorie == 1 ? (
-            <div className="flex items-center">
-              <FormControl mx={4}>
-                <NumberInput max={50} min={1} >
-                  <NumberInputField />
-                </NumberInput>
-              </FormControl>
-              <Text fontSize="sm" mx={4}>Kg</Text>
-            </div>
-          ) : (
-            <FormControl mx={4}>
-              <NumberInput max={50} min={1}>
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
-          )}
+          <FormControl mx={4}>
+            <NumberInput max={50} min={1}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
           <ButtonGroup spacing="2" mx={4}>
             <Button variant="solid" colorScheme="green">
               Ajouter au panier

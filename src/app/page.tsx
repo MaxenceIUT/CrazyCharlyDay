@@ -1,111 +1,216 @@
-'use client';
+"use client";
 
-import Article from '../components/Article';  
-import { Inter } from '@next/font/google'
-import { Image, Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
+import { Inter } from "@next/font/google";
+import {
+  Image,
+  Text,
+  Box,
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  CardFooter,
+  Divider,
+  Heading,
+  Stack,
+  Wrap,
+  WrapItem,
+  useColorModeValue,
+  Flex,
+  Avatar,
+  Container,
+  LinkOverlay,
+} from "@chakra-ui/react";
+import { ReactNode } from "react";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
+
+const Testimonial = ({ children }: { children: ReactNode }) => {
+  return <Box>{children}</Box>;
+};
+
+const TestimonialContent = ({ children }: { children: ReactNode }) => {
+  return (
+    <Stack
+      bg={useColorModeValue("white", "gray.800")}
+      boxShadow={"lg"}
+      p={8}
+      rounded={"xl"}
+      align={"center"}
+      pos={"relative"}
+      _after={{
+        content: `""`,
+        w: 0,
+        h: 0,
+        borderLeft: "solid transparent",
+        borderLeftWidth: 16,
+        borderRight: "solid transparent",
+        borderRightWidth: 16,
+        borderTop: "solid",
+        borderTopWidth: 16,
+        borderTopColor: useColorModeValue("white", "gray.800"),
+        pos: "absolute",
+        bottom: "-16px",
+        left: "50%",
+        transform: "translateX(-50%)",
+      }}
+    >
+      {children}
+    </Stack>
+  );
+};
+
+const TestimonialHeading = ({ children }: { children: ReactNode }) => {
+  return (
+    <Heading as={"h3"} fontSize={"xl"}>
+      {children}
+    </Heading>
+  );
+};
+
+const TestimonialText = ({ children }: { children: ReactNode }) => {
+  return (
+    <Text
+      textAlign={"center"}
+      color={useColorModeValue("gray.600", "gray.400")}
+      fontSize={"sm"}
+    >
+      {children}
+    </Text>
+  );
+};
+
+const TestimonialAvatar = ({
+  src,
+  name,
+  title,
+}: {
+  src: string;
+  name: string;
+  title: string;
+}) => {
+  return (
+    <Flex align={"center"} mt={8} direction={"column"}>
+      <Avatar src={src} mb={2} />
+      <Stack spacing={-1} align={"center"}>
+        <Text fontWeight={600}>{name}</Text>
+        <Text fontSize={"sm"} color={useColorModeValue("gray.600", "gray.400")}>
+          {title}
+        </Text>
+      </Stack>
+    </Flex>
+  );
+};
 
 export default function Home() {
   return (
-    <div>
-      <Stack direction='column'>
-        <Box
-          display='flex'
-          alignItems='center'
-          justifyContent='center'
-          width='100%'
-          py={12}
-          mb={2}
+    <>
+      <div>
+        <Stack
+          as={Box}
+          textAlign={"center"}
+          spacing={{ base: 8, md: 14 }}
+          py={20}
         >
-          <ButtonGroup gap='4'>
-            <Button colorScheme='whiteAlpha'>WhiteAlpha</Button>
-            <Button colorScheme='blackAlpha'>BlackAlpha</Button>
-          </ButtonGroup>
-        </Box>
-
-        <Wrap spacing={4}>
-          <WrapItem>
-            <Button colorScheme='gray'>Gray</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='red'>Red</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='orange'>Orange</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='yellow'>Yellow</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='green'>Green</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='teal'>Teal</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='blue'>Blue</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='cyan'>Cyan</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='purple'>Purple</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='pink'>Pink</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='linkedin'>Linkedin</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='facebook'>Facebook</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='messenger'>Messenger</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='whatsapp'>Whatsapp</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='twitter'>Twitter</Button>
-          </WrapItem>
-          <WrapItem>
-            <Button colorScheme='telegram'>Telegram</Button>
-          </WrapItem>
-        </Wrap>
-      </Stack>
-      <Card maxW='sm'>
-        <CardBody>
-          <Image
-            src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-            alt='Green double couch with wooden legs'
-            borderRadius='lg'
-          />
-          <Stack mt='6' spacing='3'>
-            <Heading size='md'>Living room Sofa</Heading>
-            <Text>
-              This sofa is perfect for modern tropical spaces, baroque inspired
-              spaces, earthy toned spaces and for people who love a chic design with a
-              sprinkle of vintage design.
+          <Heading
+            fontWeight={600}
+            fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+            lineHeight={"110%"}
+          >
+            Bienvenue à<br />
+            <Text as={"span"} color={"green.400"}>
+              Court-Circuit Nancy
             </Text>
-            <Text color='blue.600' fontSize='2xl'>
-              $450
-            </Text>
+          </Heading>
+          <Text color={"gray.500"}>Découvrez nos produits et services</Text>
+          <Stack
+            direction={"column"}
+            spacing={3}
+            align={"center"}
+            alignSelf={"center"}
+            position={"relative"}
+          >
+            <LinkOverlay href={'catalogue'}>
+              <Button
+                colorScheme={"green"}
+                bg={"green.400"}
+                rounded={"full"}
+                px={6}
+                _hover={{
+                  bg: "green.500",
+                }}
+                
+              >
+                Boutique
+              </Button>
+            </LinkOverlay>
           </Stack>
-        </CardBody>
-        <Divider />
-        <CardFooter>
-          <ButtonGroup spacing='2'>
-            <Button variant='solid' colorScheme='blue'>
-              Buy now
-            </Button>
-            <Button variant='ghost' colorScheme='blue'>
-              Add to cart
-            </Button>
-          </ButtonGroup>
-        </CardFooter>
-      </Card>
-    </div>
-  )
+        </Stack>
+      </div>
+      <Box bg={useColorModeValue("gray.100", "gray.700")}>
+        <Container maxW={"7xl"} py={16} as={Stack} spacing={12}>
+          <Stack spacing={0} align={"center"}>
+            <Heading>Retour client</Heading>
+            <Text>Nos clients sont heureux de nos produits locaux</Text>
+          </Stack>
+          <Stack
+            direction={{ base: "column", md: "row" }}
+            spacing={{ base: 10, md: 4, lg: 10 }}
+          >
+            <Testimonial>
+              <TestimonialContent>
+                <TestimonialHeading>
+                  Découverte exceptionnelle
+                </TestimonialHeading>
+                <TestimonialText>
+                  Très belle découverte, cadre agréable et coupé de la ville.
+                  Les produits proposés sont frais et locaux, tout est pensé
+                  pour réduire les déchets, bref top !
+                </TestimonialText>
+              </TestimonialContent>
+              <TestimonialAvatar
+                src={"https://avatars.dicebear.com/api/male/michelle.svg"}
+                name={"Stephanie Gounant"}
+                title={""}
+              />
+            </Testimonial>
+            <Testimonial>
+              <TestimonialContent>
+                <TestimonialHeading>
+                  Des produits locaux de qualité
+                </TestimonialHeading>
+                <TestimonialText>
+                  Magnifique lieu de vie, des produits locaux de qualité et des
+                  animations nombreuses et régulières !! Je vous conseille d'y
+                  aller rapidement ;)
+                </TestimonialText>
+              </TestimonialContent>
+              <TestimonialAvatar
+                src={"https://avatars.dicebear.com/api/male/Jeanne.svg"}
+                name={"Michael Bouquet"}
+                title={""}
+              />
+            </Testimonial>
+            <Testimonial>
+              <TestimonialContent>
+                <TestimonialHeading>
+                  Super Ravie
+                </TestimonialHeading>
+                <TestimonialText>
+                  Un endroit où on se sent bien pour y faire ses courses ! Et le
+                  tout avec des produits de qualité, bio, en vrac et en
+                  circuits-courts. J'ai aussi apprécié l'affichage du lieu et
+                  des conditions de production pour chaque produit.
+                </TestimonialText>
+              </TestimonialContent>
+              <TestimonialAvatar
+                src={"https://avatars.dicebear.com/api/female/Jean.svg"}
+                name={"Inès Brin"} title={""}              
+                />
+            </Testimonial>
+          </Stack>
+        </Container>
+      </Box>
+    </>
+  );
 }
