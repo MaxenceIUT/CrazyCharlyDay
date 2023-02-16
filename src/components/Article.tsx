@@ -3,7 +3,14 @@
 import { Image, Popover, LinkBox, LinkOverlay,  Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
-export default function Article(props) {
+type ArticleProps = {
+  nom: string,
+  description: string,
+  prix: number,
+  image: string
+}
+
+export default function Article(props: ArticleProps) {
 
   const router = useRouter();
 
