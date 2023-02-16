@@ -11,7 +11,7 @@ import { Database } from '@/../lib/database.types'
 type Produit = Database["public"]["Tables"]["produit"]["Rows"];
 
 
-export default function articleInfo() { 
+export default function ArticleInfo() { 
 
 
 

@@ -22,7 +22,7 @@ import { Database } from "@/../lib/database.types";
 
 type Produit = Database["public"]["Tables"]["produit"]["Rows"];
 
-export default function articleInfo({ params }: { params: { id: number } }) {
+export default function ArticleInfo({ params }: { params: { id: number } }) {
   const [produit, setProduit] = useState({} as Produit);
 
   useEffect(() => {
