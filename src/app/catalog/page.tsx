@@ -1,44 +1,56 @@
 "use client";
 
-import { Stack } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Stack, Wrap, WrapItem } from "@chakra-ui/react";
+import React, { useState, ReactElement } from "react";
 
 import Article from "@/components/Article";
 
+import supabase from "@/utils/supabase-browser";
 import { createClient } from "@supabase/supabase-js";
-import { Database } from "@/types/database";
+import { Database } from "@/../lib/database.types";
 
-const supabase = createClient<Database>(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
-
-const article = (props) => {
-    nom : string;
-}
+const PRODUCSLIST: ReactElement[] = new Array<ReactElement>();
 
 export async function getArticle() {
-  return await supabase.from("articles").select("*");
+  const { data, error } = await supabase.from("produit").select("*");
+  return data;
 }
 
-
 export default function Catalogue() {
-  const [articles, setArticles] = useState([]);
+  const [products, setProducts] = useState(PRODUCSLIST);
+
+  let data = getArticle();
 
   getArticle().then((data) => {
-    setArticles(data.data);
+    data.forEach(
+      (element: {
+        id: any;
+        nom: any;
+        prix: any;
+        description: any;
+        image: any;
+      }) => {
+        setProducts((prev) => [
+          ...prev,
+          <WrapItem>
+            <Article
+              key={products.length}
+              nom={element.nom}
+              prix={element.prix}
+              description={element.description}
+              image={element.image}
+            />
+          </WrapItem>,
+        ]);
+      }
+    );
   });
 
   return (
     <Stack direction="row">
-      {articles.map((article) => (
-        <Article
-          nom={article.nom}
-          description={article.description}
-          prix={article.prix}
-          image={article.image}
-        />
-      ))}
+      <Wrap spacing="30px" justify="center">
+        <>{products}</>
+      </Wrap>
     </Stack>
   );
 }
