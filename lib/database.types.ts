@@ -101,6 +101,7 @@ export interface Database {
           nom: string | null
           prenom: string | null
           telephone: string | null
+          admin : boolean
         }
         Insert: {
           id: string
