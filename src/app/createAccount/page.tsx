@@ -68,9 +68,6 @@ export default function Login() {
               <Heading fontSize={"4xl"} textAlign={"center"}>
                 Créer un compte
               </Heading>
-              <Text fontSize={"lg"} color={"gray.600"}>
-                to enjoy all of our cool features ✌️
-              </Text>
             </Stack>
             <Box
               rounded={"lg"}

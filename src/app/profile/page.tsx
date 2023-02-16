@@ -85,9 +85,6 @@ export default function Profile() {
               <Heading fontSize={"4xl"} textAlign={"center"}>
                 Mettre à jour ton profil
               </Heading>
-              <Text fontSize={"lg"} color={"gray.600"}>
-                to enjoy all of our cool features ✌️
-              </Text>
             </Stack>
             <Box
               rounded={"lg"}
