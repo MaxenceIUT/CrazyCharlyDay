@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -35,6 +35,8 @@ const MoonIcon = chakra(FaMoon);
 const ChevronDownIcon = chakra(FaChevronDown);
 const ChevronRightIcon = chakra(FaChevronRight);
 import logo from '@/../public/logo.png';
+import supabaseBrowser from "@/utils/supabase-browser";
+import { useRouter } from "next/navigation";
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -231,8 +233,43 @@ const NAV_ITEMS: Array<NavItem> = [
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [cart] = useRecoilState(cartState);
   const bgColor = useColorModeValue('gray.100', 'gray.900');
+  const [cart, setCart] = useState([] as Array<any>);
+  const [cartState, setCartState] = useState([] as Array<any>);
+  const router = useRouter();
+
+  useEffect(() => {
+    let articles = [] as Array<any>;
+    const fetch = async () => {
+      const id = "0026e160-811a-44c4-97d2-77b6193da798";
+
+      const idCommande = await supabaseBrowser
+        .from("commande")
+        .select("*")
+        .eq("termine", false)
+        .eq("idUser", id);
+      if (!idCommande.data) return;
+
+      const { data, error } = await supabaseBrowser
+        .from("panier")
+        .select()
+        .eq("id_commande", idCommande.data[0].idCM);
+      if (error) return;
+      setCartState(data);
+      if (!data) return;
+      data.forEach(async (element: { id_produit: any }) => {
+        let article = await supabaseBrowser
+          .from("produit")
+          .select()
+          .eq("id", element.id_produit);
+        if (article.data) articles.push(article.data[0]);
+      });
+    };
+    fetch();
+    setCart(articles);
+    router.refresh();
+  }, []);
+
   return (
     <>
       <Box backgroundColor={bgColor} px={4}>
