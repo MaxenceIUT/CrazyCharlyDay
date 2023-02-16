@@ -99,18 +99,20 @@ export default function Catalogue() {
     // Get the products for the current page
     dataFetch.then((data) => {
       if (data === null) return;
-      return setProducts(
-        data.filter((product) =>
-          product.nom
-            .toLocaleLowerCase()
-            .match(searchInput.toLowerCase())
-            ?.slice((index - 1) * limit, index * limit)
-        )
-      );
+
+      let d = data.filter((product) =>
+        product.nom
+          .toLocaleLowerCase()
+          .match(searchInput.toLowerCase())
+        );
+      setProducts(d);
     });
-    updateNumberPages();
 
     if (searchInput === "" || searchInput === null) {
+      dataFetch.then((data) => {
+        if (data === null) return;
+        setProducts(data.slice((index - 1) * limit, index * limit));
+      });
       setVisible(true);
     } else {
       setVisible(false);
