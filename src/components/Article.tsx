@@ -1,9 +1,15 @@
 'use strict';
 
+import { CartProvider, useCart } from '@/app/cart/useCart';
 import { Image, Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
+import { useState, useContext } from 'react';
 
 
-export default function Article(props) {
+
+
+export default function Article(props: any) {
+
+  
 
     return (
         <div>
@@ -32,9 +38,11 @@ export default function Article(props) {
               <Button variant='solid' colorScheme='blue'>
                 Acheter maintenant
               </Button>
-              <Button variant='ghost' colorScheme='blue'>
-                Ajouter au panier
-              </Button>
+              <CartProvider>
+                <Button variant='ghost' colorScheme='blue' onClick={addToCart}>
+                  Ajouter au panier
+                </Button>
+              </CartProvider>
             </ButtonGroup>
           </CardFooter>
         </Card>
