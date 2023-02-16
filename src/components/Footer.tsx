@@ -46,7 +46,7 @@ const SocialButton = ({
 export default function SmallCentered() {
   return (
     <footer className="mt-auto">
-    <Box mt={20}
+    <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}>
       <Container
