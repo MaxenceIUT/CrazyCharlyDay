@@ -22,7 +22,7 @@ export default function Article(props: ArticleProps) {
     return (
         <div>
           <LinkBox>
-            <LinkOverlay href={'articleInfo/'+props.id}>
+            <LinkOverlay href={'produit/'+props.id}>
                 <Card maxW='sm' className="hover:drop-shadow-lg">
                   <CardBody>
                     <div className="w-[100%] flex justify-center">
