@@ -19,6 +19,7 @@ import Article from "@/components/Article";
 import supabase from "@/utils/supabase-browser";
 
 import { FaSearch } from "react-icons/fa";
+import { Database } from "lib/database.types";
 const CFaSearch = chakra(FaSearch);
 
 let indexPage = 1;
@@ -31,35 +32,22 @@ async function getArticle() {
   return data;
 }
 
-let dataFetch: Promise<
-  | {
-      categorie: number;
-      description: string;
-      detail: string;
-      distance: number;
-      id: number;
-      latitude: number;
-      lieu: string;
-      longitude: number;
-      nom: string;
-      poids: number;
-      prix: number;
-    }[]
-  | null
->;
+type Produit = Database["public"]["Tables"]["produit"]["Row"];
+
+let dataFetch: Promise<Produit[] | null> = Promise.resolve(null);
 
 function updateNumberPages() {
   indexMax = dataFetch.then((data) => {
+    if (data === null) return 0;
     return Math.ceil(data.length / limit);
   });
   indexMax.then((data) => {
-    // Array.from(Array(data).keys()+1);
     tableIndex = Array.from(Array(data).keys()).map((i) => i + 1);
   });
 }
 
 export default function Catalogue() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([] as Array<Produit>);
   const [index, setIndex] = useState(indexPage);
   const [searchInput, setSearchInput] = useState("");
   const [visible, setVisible] = useState(true);
@@ -72,6 +60,8 @@ export default function Catalogue() {
 
     // Get the products from the database
     dataFetch.then((data) => {
+      if (data === null) return;
+
       // Get the products for the current page
       setProducts(data.slice((index - 1) * limit, index * limit));
     });
@@ -82,7 +72,9 @@ export default function Catalogue() {
   function handleInputChange(page: number) {
     // Get the products for the current page
     dataFetch.then((data) => {
-      setProducts(data.slice((page - 1) * limit, page * limit));
+      if (data === null) return;
+      else
+        setProducts(data.slice((page - 1) * limit, page * limit));
     });
     setIndex(page);
     window.scrollTo(0, 0);
@@ -91,6 +83,7 @@ export default function Catalogue() {
   function handleSearch(searchInput: string) {
     // Get the products for the current page
     dataFetch.then((data) => {
+      if (data === null) return;
       return setProducts(
         data.filter((product) =>
           product.nom
@@ -127,7 +120,7 @@ export default function Catalogue() {
           </InputGroup>
         </FormControl>
         <Wrap spacing="30px" justify="center">
-          {products.map((product: Database.produit) => (
+          {products.map((product: Produit) => (
             <WrapItem key={product.id}>
               <Article
                 id={product.id}
