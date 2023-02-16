@@ -57,7 +57,7 @@ export default function SmallCentered() {
         justify={'center'}
         align={'center'}>
         <Box boxSize='60px'>
-          <Image src='logo.png' alt='Dan Abramov' />
+          <Image src='/logo.png' alt='Logo de Court-Circuit Nancy' />
         </Box>
         <Stack direction={'row'} spacing={6}>
           <Link href='/'>Accueil</Link>
