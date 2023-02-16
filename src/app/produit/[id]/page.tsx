@@ -22,7 +22,7 @@ import { Database } from "@/../lib/database.types";
 
 type Produit = Database["public"]["Tables"]["produit"]["Rows"];
 
-export default function articleInfo({ params }: { params: { id: number } }) {
+export default function Produit({ params }: { params: { id: number } }) {
   const [produit, setProduit] = useState({} as Produit);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function articleInfo({ params }: { params: { id: number } }) {
       <div className="m-3 h-[100%] items-center flex">
         <Box boxSize={"sm"}>
           <Image
-            src={"/img/" + params.id + ".jpg"}
+            src={"/img/" + params.id + ".png"}
             boxSize={"full"}
             alt="Dan Abramov"
           />

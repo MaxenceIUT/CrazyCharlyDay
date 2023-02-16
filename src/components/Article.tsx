@@ -27,7 +27,7 @@ export default function Article(props: ArticleProps) {
                   <CardBody>
                     <div className="w-[100%] flex justify-center">
                       <Image
-                            src={'img/'+props.id+'.jpg'}
+                            src={'img/'+props.id+'.png'}
                             alt='Green double couch with wooden legs'
                             borderRadius='lg'
                             height='250px'

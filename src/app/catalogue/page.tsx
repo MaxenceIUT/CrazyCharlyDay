@@ -18,9 +18,7 @@ import {
 
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-
 import Article from "@/components/Article";
-
 import supabase from "@/utils/supabase-browser";
 
 import { FaSearch } from "react-icons/fa";

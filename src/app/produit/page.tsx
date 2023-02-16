@@ -8,7 +8,7 @@ import { Database } from '@/../lib/database.types'
 type Produit = Database["public"]["Tables"]["produit"]["Rows"];
 
 
-export default function articleInfo() { 
+export default function Produit() { 
 
 
 
@@ -32,7 +32,7 @@ export default function articleInfo() {
     <div className='flex px-[20%] mt-10'>
       <div className='m-3'>
         <Box boxSize={'sm'}>
-          <Image src={'img/'+produit.id+'.jpg'} boxSize={'full'} alt='Dan Abramov' />
+          <Image src={'img/'+produit.id+'.png'} boxSize={'full'} alt='Dan Abramov' />
         </Box>
       </div>
       <div className=''>
