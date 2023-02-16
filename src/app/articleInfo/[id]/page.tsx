@@ -20,9 +20,9 @@ import { useState, useEffect } from "react";
 import supabase from "@/utils/supabase-browser";
 import { Database } from "@/../lib/database.types";
 
-type Produit = Database["public"]["Tables"]["produit"]["Rows"];
+type Produit = Database["public"]["Tables"]["produit"]["Row"];
 
-export default function articleInfo({ params }: { params: { id: number } }) {
+export default function ArticleInfo({ params }: { params: { id: number } }) {
   const [produit, setProduit] = useState({} as Produit);
 
   useEffect(() => {
