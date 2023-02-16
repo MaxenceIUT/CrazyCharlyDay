@@ -1,5 +1,6 @@
 'use client';
 
+import Article from '../components/Article';  
 import { Inter } from '@next/font/google'
 import { Image, Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
 
@@ -106,6 +107,7 @@ export default function Home() {
             </ButtonGroup>
           </CardFooter>
         </Card>
+        <Article nom="Article 1" description="Description de l'article 1" prix="10" />
       </div>
     </main>
   )
