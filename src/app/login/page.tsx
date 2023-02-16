@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -15,17 +15,40 @@ import {
   Avatar,
   FormControl,
   FormHelperText,
-  InputRightElement
+  InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
+import supabase from "@/utils/supabase-browser";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+
+  const alreadysignin = async () => {
+    const jtwl = await supabase.auth.getSession();
+    if (jtwl) router.push("/profile");
+  };
+  
+  useEffect(() => {
+    alreadysignin();
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log(e.target.email.value);
+    console.log(e.target.password.value);
+    await supabase.auth.signInWithPassword({
+      email: e.target.email.value,
+      password: e.target.password.value,
+    });
+  };
 
   return (
     <Flex
@@ -45,7 +68,7 @@ export default function Login() {
         <Avatar bg="teal.500" />
         <Heading color="teal.400">Bienvenue</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <Stack
               spacing={4}
               p="1rem"
@@ -58,7 +81,7 @@ export default function Login() {
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="email" placeholder="Adresse email" />
+                  <Input type="email" placeholder="Adresse email" id="email" />
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -71,6 +94,7 @@ export default function Login() {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Mot de passe"
+                    id="password"
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -103,4 +127,4 @@ export default function Login() {
       </Box>
     </Flex>
   );
-};
+}
