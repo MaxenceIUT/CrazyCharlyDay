@@ -21,8 +21,9 @@ export default function ArticleInfo() {
         .from("produit")
         .select("*")
         .eq("id", 1);
+      if (!data) return;
+      // console.log(data[0]);
       setProduit(data[0]);
-      console.log(data);
     };
     fetchProduit();
   }, []);
