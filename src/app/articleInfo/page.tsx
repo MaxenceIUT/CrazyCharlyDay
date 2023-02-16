@@ -1,11 +1,19 @@
 'use client'
 
 import { Image, Text, Box, Heading, Button, ButtonGroup, FormControl, FormLabel, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, chakra} from '@chakra-ui/react'
-
+import { useRecoilState } from 'recoil';
+import { cartState } from '@/../src/atoms/cartState';
 
 
 export default function articleInfo({ params }: { params: { id: number } }) {
     
+  const [cart, setCart] = useRecoilState(cartState);
+
+  const addToCart = () => {
+    setCart(prevState => [...cart, params]);
+  }
+  console.log(cart);
+
   return (
     <div className='flex px-[20%] mt-10'>
       <div className='m-3'>
@@ -39,7 +47,7 @@ export default function articleInfo({ params }: { params: { id: number } }) {
             </NumberInput>
           </FormControl>
           <ButtonGroup spacing='2' mx={4}>
-              <Button variant='solid' colorScheme='green'>
+              <Button variant='solid' colorScheme='green' onClick={addToCart}>
                 Ajouter au panier
               </Button>
           </ButtonGroup>

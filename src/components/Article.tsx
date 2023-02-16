@@ -1,18 +1,23 @@
 'use strict';
 
 import { Image, Text, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Wrap, WrapItem } from '@chakra-ui/react'
-import { useState, useContext } from 'react';
-
-
+import {useCart} from '@/../lib/useCart';
+import { use } from 'react';
+import {useRecoilState} from 'recoil';
+import {cartState} from '@/../src/atoms/cartState';
 
 
 export default function Article(props: any) {
 
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useRecoilState(cartState);
 
   const addToCart = () => {
-    setCart([...cart, props]);
-    console.log(cart);
+    if (!props.categorie == 1 ) {
+      setCart(prevState => [...cart, props]);
+    } else {
+      routeur.push('/articleInfo/'+props.id);
+    }
+
   }
 
     return (

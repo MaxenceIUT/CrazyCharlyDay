@@ -9,6 +9,8 @@ import supabase from "@/utils/supabase-browser";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/../lib/database.types";
 
+import { RecoilRoot } from "recoil";
+
 let indexPage = 1;
 let indexMax: Promise<number> = Promise.resolve(1);
 let tableIndex : number[] = [];

@@ -24,6 +24,10 @@ import {
   PopoverTrigger,
 } from '@chakra-ui/react';
 import { FaMoon, FaSun, FaChevronDown, FaChevronRight } from 'react-icons/fa';
+// on import l'icone panier
+import { FaShoppingCart } from 'react-icons/fa';
+import { useRecoilState} from 'recoil';
+import {cartState} from '@/../src/atoms/cartState';
 
 const SunIcon = chakra(FaSun);
 const MoonIcon = chakra(FaMoon);
@@ -239,6 +243,7 @@ const NAV_ITEMS: Array<NavItem> = [
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [cart] = useRecoilState(cartState);
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -254,7 +259,33 @@ export default function Header() {
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-
+              <Menu>
+                <MenuButton
+                  as={Button}>
+                  <FaShoppingCart/>
+                  <span className='absolute -right-1 bg-emerald-900 rounded-full text-white text-xs w-4 h-4 flex items-center justify-center'>
+                    {cart.length}</span>
+                </MenuButton>
+                <MenuList>
+                  {cart.map((item) => (
+                    <MenuItem key={item.id}>
+                      <div className='flex items-center'>
+                        <div className='flex flex-col'>
+                          <span className='font-bold'>{item.nom}</span>
+                          <span className='text-xs text-gray-400'>
+                            {item.prix}
+                          </span>
+                        </div>
+                      </div>
+                    </MenuItem>
+                  ))}
+                  <Button>
+                    <Link href='/cart'>Voir le panier</Link>
+                  </Button>
+                </MenuList>
+                  
+              </Menu>
+              
               <Menu>
                 <MenuButton
                   as={Button}
