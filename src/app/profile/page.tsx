@@ -62,7 +62,7 @@ export default function Profile() {
         .update({ telephone: e.target.telephone.value })
         .eq("id", profile.id);
     }
-    router.push("/");
+    router.push("/profile");
   };
 
   return (
@@ -79,8 +79,8 @@ export default function Profile() {
               <Heading fontSize={"4xl"} textAlign={"center"}>
                 Mettre à jour ton profil
               </Heading>
-              <Text fontSize={"lg"} color={"gray.600"}>
-                Modifie ton profile au temps que tu le veux ✌️
+              <Text fontSize={"lg"} color={"gray.600"} textAlign='center'>
+                Tu peux ici mettre à jour les informations te concernant. N'hésite pas à renseigner ton numéro de téléphone pour être tenu au courant des dernières nouvelles.
               </Text>
             </Stack>
             <Box
@@ -93,7 +93,7 @@ export default function Profile() {
                 <HStack>
                   <Box>
                     <FormControl id="firstName" isRequired>
-                      <FormLabel>Prenom</FormLabel>
+                      <FormLabel>Prénom</FormLabel>
                       <Input
                         type="text"
                         id="prenom"
@@ -117,7 +117,7 @@ export default function Profile() {
                   </Box>
                 </HStack>
                 <FormControl id="telephone">
-                  <FormLabel>Telephone</FormLabel>
+                  <FormLabel>Téléphone</FormLabel>
                   <InputGroup>
                     <Input
                       type="tel"
@@ -144,8 +144,6 @@ export default function Profile() {
                     Mettre à jour
                   </Button>
                 </Stack>
-
-                
               </Stack>
             </Box>
           </Stack>
