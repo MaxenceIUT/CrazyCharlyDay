@@ -32,6 +32,7 @@ export default function Produit({ params }: { params: { id: number } }) {
         .from("produit")
         .select("*")
         .eq("id", params.id); 
+        if (!data) return;
       setProduit(data[0]);
     };
     fetchProduit();
