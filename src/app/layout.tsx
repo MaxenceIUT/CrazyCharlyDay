@@ -6,7 +6,7 @@ import createClient from '../utils/supabase-server'
 import ChakraClientProvider from '@/components/ChakraClientProvider';
 
 // do not cache this layout
-export const revalidate = 0
+export const revalidate = 0;
 
 export default async function RootLayout({
   children,
