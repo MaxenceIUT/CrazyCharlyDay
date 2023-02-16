@@ -31,8 +31,8 @@ export default function ArticleInfo({ params }: { params: { id: number } }) {
         .from("produit")
         .select("*")
         .eq("id", params.id);
+      if (!data) return;
       setProduit(data[0]);
-      console.log(data);
     };
     fetchProduit();
   }, []);
@@ -75,11 +75,13 @@ export default function ArticleInfo({ params }: { params: { id: number } }) {
           {produit.categorie == 1 ? (
             <div className="flex items-center">
               <FormControl mx={4}>
-                <NumberInput max={50} min={1} >
+                <NumberInput max={50} min={1}>
                   <NumberInputField />
                 </NumberInput>
               </FormControl>
-              <Text fontSize="sm" mx={4}>Kg</Text>
+              <Text fontSize="sm" mx={4}>
+                Kg
+              </Text>
             </div>
           ) : (
             <FormControl mx={4}>
