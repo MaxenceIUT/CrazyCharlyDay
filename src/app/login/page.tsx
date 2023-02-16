@@ -26,7 +26,7 @@ export default function Login() {
 
   const alreadysignin = async () => {
     const jtwl = await supabase.auth.getSession();
-    if (!jtwl.data.session) router.push("/profile");
+    if (jtwl.data.session) router.push("/profile");
   };
 
   useEffect(() => {
