@@ -6,7 +6,7 @@ import createClient from '../utils/supabase-server'
 import ChakraClientProvider from '@/components/ChakraClientProvider';
 
 // do not cache this layout
-export const revalidate = 0
+export const revalidate = 0;
 
 export default async function RootLayout({
   children,
@@ -21,13 +21,13 @@ export default async function RootLayout({
   } = await supabase.auth.getSession()
 
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       {/*
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>
+      <body className="min-h-full flex flex-col">
         <ChakraClientProvider children={children} />
         <SupabaseListener accessToken={session?.access_token} />
       </body>

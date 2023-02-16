@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import {
@@ -8,104 +8,126 @@ import {
   Button,
   InputGroup,
   Stack,
-  InputLeftElement,
   chakra,
   Box,
   Link,
-  Avatar,
+  Text,
+  InputRightElement,
+  useColorModeValue,
+  HStack,
   FormControl,
-  FormHelperText,
-  InputRightElement
+  FormLabel,
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
-
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
+import supabase from "@/utils/supabase-browser";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleShowClick = () => setShowPassword(!showPassword);
+  const handleShowClick = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    
+    const { data, error } = await supabase.auth.signUp({
+      email: e.target.email.value,
+      password: e.target.password.value,
+    });
+    if (data.user) {
+      await supabase.from("profile").insert([
+        {
+          id: data.user.id,
+          nom: e.target.nom.value,
+          prenom: e.target.prenom.value,
+        },
+      ]);
+    }
+    router.push("/profile");
+  };
 
   return (
-    <Flex
-      flexDirection="column"
-      width="100wh"
-      height="100vh"
-      backgroundColor="gray.200"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Stack
-        flexDir="column"
-        mb="2"
-        justifyContent="center"
-        alignItems="center"
+    <div>
+      <Flex
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={useColorModeValue("gray.50", "gray.800")}
       >
-        <Avatar bg="teal.500" />
-        <Heading color="teal.400">Créer votre compte</Heading>
-        <Box minW={{ base: "90%", md: "468px" }}>
-          <form>
-            <Stack
-              spacing={4}
-              p="1rem"
-              backgroundColor="whiteAlpha.900"
-              boxShadow="md"
-            >
-              <FormControl>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<CFaUserAlt color="gray.300" />}
-                  />
-                  <Input type="email" placeholder="Adresse email" />
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    color="gray.300"
-                    children={<CFaLock color="gray.300" />}
-                  />
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Mot de passe"
-                  />
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    color="gray.300"
-                    children={<CFaLock color="gray.300" />}
-                  />
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Confirmation du mot de passe"
-                  />
-                </InputGroup>
-              </FormControl>
-              <Button
-                borderRadius={0}
-                type="submit"
-                variant="solid"
-                colorScheme="teal"
-                width="full"
-              >
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+            <Stack align={"center"}>
+              <Heading fontSize={"4xl"} textAlign={"center"}>
                 Créer un compte
-              </Button>
+              </Heading>
+              <Text fontSize={"lg"} color={"gray.600"}>
+                Prépare toi à avoir ton compte ✌️
+              </Text>
             </Stack>
-          </form>
-        </Box>
-      </Stack>
-      <Box>
-        Vous possédez déjà un compte ?{" "}
-        <Link color="teal.500" href="../login">
-          Se Connecter.
-        </Link>
-      </Box>
-    </Flex>
+            <Box
+              rounded={"lg"}
+              bg={useColorModeValue("white", "gray.700")}
+              boxShadow={"lg"}
+              p={8}
+            >
+              <Stack spacing={4}>
+                <HStack>
+                  <Box>
+                    <FormControl id="firstName" isRequired>
+                      <FormLabel>Prenom</FormLabel>
+                      <Input type="text" id="prenom" />
+                    </FormControl>
+                  </Box>
+                  <Box>
+                    <FormControl id="lastName" isRequired>
+                      <FormLabel>Nom</FormLabel>
+                      <Input type="text" id="nom" />
+                    </FormControl>
+                  </Box>
+                </HStack>
+                <FormControl id="email" isRequired>
+                  <FormLabel>Email address</FormLabel>
+                  <Input type="email" id="email" />
+                </FormControl>
+                <FormControl id="password" isRequired>
+                  <FormLabel>Password</FormLabel>
+                  <InputGroup>
+                    <Input type={showPassword ? "text" : "password"} />
+                    <InputRightElement h={"full"}>
+                      <Button h="1.75rem" size="sm" onClick={handleShowClick}>
+                        {showPassword ? "Cacher" : "Montrer"}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                    type="submit"
+                  >
+                    Créer un compte
+                  </Button>
+                </Stack>
+
+                <Stack pt={6}>
+                  <Text align={"center"}>
+                    Déjà un compte ? <Link href="/login" color={"blue.400"}>Connexion</Link>
+                  </Text>
+                </Stack>
+              </Stack>
+            </Box>
+          </Stack>
+        </form>
+      </Flex>
+    </div>
   );
-};
+}
