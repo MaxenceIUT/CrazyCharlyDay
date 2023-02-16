@@ -74,6 +74,7 @@ export default function Article(props: ArticleProps) {
         .eq("id_produit", props.id);
 
       if (dataPanier.data && dataPanier.data.length > 0) {
+        if (!dataPanier.data[0].quantite) return;
         const { data, error } = await supabaseBrowser
           .from("panier")
           .update({ quantite: dataPanier.data[0].quantite + 1 })
@@ -84,6 +85,7 @@ export default function Article(props: ArticleProps) {
           .from("panier")
           .insert({ id_commande: idCM, id_produit: props.id, quantite: 1 })
           .select();
+        if (!panier.data) return;
         setCart((prevState) => [...cart, panier.data[0]]);
       }
     }

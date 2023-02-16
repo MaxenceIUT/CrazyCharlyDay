@@ -85,6 +85,7 @@ export default function Article(props: ArticleProps) {
           .from("panier")
           .insert({ id_commande: idCM, id_produit: props.id, quantite: 1 })
           .select();
+        if (!panier.data) return;
         setCart((prevState) => [...cart, panier.data[0]]);
       }
     }
