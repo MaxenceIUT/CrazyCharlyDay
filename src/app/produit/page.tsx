@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import supabase from '@/utils/supabase-browser'
 import { Database } from '@/../lib/database.types'
 
-type Produit = Database["public"]["Tables"]["produit"]["Rows"];
+type Produit = Database["public"]["Tables"]["produit"]["Row"];
 
 
 export default function Produit() { 
@@ -21,6 +21,7 @@ export default function Produit() {
         .from("produit")
         .select("*")
         .eq("id", 1);
+        if (data == null) return;
       setProduit(data[0]);
       console.log(data);
     };
