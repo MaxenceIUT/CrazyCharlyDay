@@ -8,14 +8,15 @@ import {
   Button,
   InputGroup,
   Stack,
-  InputLeftElement,
   chakra,
   Box,
   Link,
-  Avatar,
-  FormControl,
-  FormHelperText,
+  Text,
   InputRightElement,
+  useColorModeValue,
+  HStack,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaPhoneAlt } from "react-icons/fa";
 import supabase from "@/utils/supabase-browser";
@@ -30,12 +31,13 @@ export default function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleShowClick = () => setShowPassword(!showPassword);
+  const handleShowClick = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(e.target.email.value);
-    console.log(e.target.nom.value);
+    
     const { data, error } = await supabase.auth.signUp({
       email: e.target.email.value,
       password: e.target.password.value,
@@ -55,124 +57,81 @@ export default function Login() {
   return (
     <div>
       <Flex
-        flexDirection="column"
-        width="100wh"
-        height="100vh"
-        backgroundColor="gray.200"
-        justifyContent="center"
-        alignItems="center"
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={useColorModeValue("gray.50", "gray.800")}
       >
-        <Stack
-          flexDir="column"
-          mb="2"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Avatar bg="teal.500" />
-          <Heading color="teal.400">Créer votre compte</Heading>
-          <Box minW={{ base: "90%", md: "468px" }}>
-            <form
-              onSubmit={(event) => {
-                handleSubmit(event);
-              }}
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+            <Stack align={"center"}>
+              <Heading fontSize={"4xl"} textAlign={"center"}>
+                Créer un compte
+              </Heading>
+              <Text fontSize={"lg"} color={"gray.600"}>
+                to enjoy all of our cool features ✌️
+              </Text>
+            </Stack>
+            <Box
+              rounded={"lg"}
+              bg={useColorModeValue("white", "gray.700")}
+              boxShadow={"lg"}
+              p={8}
             >
-              <Stack
-                spacing={4}
-                p="1rem"
-                backgroundColor="whiteAlpha.900"
-                boxShadow="md"
-              >
-                <FormControl isRequired>
+              <Stack spacing={4}>
+                <HStack>
+                  <Box>
+                    <FormControl id="firstName" isRequired>
+                      <FormLabel>Prenom</FormLabel>
+                      <Input type="text" id="prenom" />
+                    </FormControl>
+                  </Box>
+                  <Box>
+                    <FormControl id="lastName" isRequired>
+                      <FormLabel>Nom</FormLabel>
+                      <Input type="text" id="nom" />
+                    </FormControl>
+                  </Box>
+                </HStack>
+                <FormControl id="email" isRequired>
+                  <FormLabel>Email address</FormLabel>
+                  <Input type="email" id="email" />
+                </FormControl>
+                <FormControl id="password" isRequired>
+                  <FormLabel>Password</FormLabel>
                   <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<CFaUserAlt color="gray.300" />}
-                    />
-                    <Input
-                      type="email"
-                      id="email"
-                      placeholder="Adresse email"
-                    />
+                    <Input type={showPassword ? "text" : "password"} />
+                    <InputRightElement h={"full"}>
+                      <Button h="1.75rem" size="sm" onClick={handleShowClick}>
+                        {showPassword ? "Hide" : "Show"}
+                      </Button>
+                    </InputRightElement>
                   </InputGroup>
                 </FormControl>
-                <FormControl isRequired>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      color="gray.300"
-                      children={<CFaLock color="gray.300" />}
-                    />
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      id="password"
-                      placeholder="Mot de passe"
-                    />
-                  </InputGroup>
-                </FormControl>
-                <FormControl isRequired>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      color="gray.300"
-                      children={<CFaLock color="gray.300" />}
-                    />
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      id="passwordConfirm"
-                      placeholder="Confirmation du mot de passe"
-                    />
-                  </InputGroup>
-                </FormControl>
-                <FormControl isRequired>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<CFaUserAlt color="gray.300" />}
-                    />
-                    <Input type="nom" placeholder="Nom" id="nom" />
-                  </InputGroup>
-                </FormControl>
-                <FormControl isRequired>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<CFaUserAlt color="gray.300" />}
-                    />
-                    <Input type="prenom" placeholder="Prenom" id="prenom" />
-                  </InputGroup>
-                </FormControl>
-                <FormControl>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<PhoneIcon color="gray.300" />}
-                    />
-                    <Input
-                      type="telephone"
-                      placeholder="Telephone"
-                      id="telephone"
-                    />
-                  </InputGroup>
-                </FormControl>
-                <Button
-                  borderRadius={0}
-                  type="submit"
-                  variant="solid"
-                  colorScheme="teal"
-                  width="full"
-                >
-                  Créer un compte
-                </Button>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                    type="submit"
+                  >
+                    Créer un compte
+                  </Button>
+                </Stack>
+
+                <Stack pt={6}>
+                  <Text align={"center"}>
+                    Already a user? <Link color={"blue.400"}>Login</Link>
+                  </Text>
+                </Stack>
               </Stack>
-            </form>
-          </Box>
-        </Stack>
-        <Box>
-          Vous possédez déjà un compte ?{" "}
-          <Link color="teal.500" href="../login">
-            Se Connecter.
-          </Link>
-        </Box>
+            </Box>
+          </Stack>
+        </form>
       </Flex>
     </div>
   );
