@@ -23,6 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@chakra-ui/react';
+import Image from 'next/image';
 import { FaMoon, FaSun, FaChevronDown, FaChevronRight } from 'react-icons/fa';
 // on import l'icone panier
 import { FaShoppingCart } from 'react-icons/fa';
@@ -33,6 +34,7 @@ const SunIcon = chakra(FaSun);
 const MoonIcon = chakra(FaMoon);
 const ChevronDownIcon = chakra(FaChevronDown);
 const ChevronRightIcon = chakra(FaChevronRight);
+import logo from '@/../public/logo.png';
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -49,12 +51,12 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 );
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue('gray.600', 'gray.200');
-  const linkHoverColor = useColorModeValue('gray.800', 'white');
+  const linkColor = useColorModeValue('gray.800', 'gray.200');
+  const linkHoverColor = useColorModeValue('secondary-gold.400', 'secondary-gold.600');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
   return (
-    <Stack direction={'row'} spacing={4}>
+    <Stack direction={'row'} spacing={4} alignItems={'center'}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
@@ -103,12 +105,12 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
+      _hover={{ bg: useColorModeValue('secondary-gold.50', 'secondary-gold.100') }}>
       <Stack direction={'row'} align={'center'}>
         <Box>
           <Text
             transition={'all .3s ease'}
-            _groupHover={{ color: 'pink.400' }}
+            _groupHover={{ color: 'secondary-gold.600' }}
             fontWeight={500}>
             {label}
           </Text>
@@ -122,7 +124,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
           justify={'flex-end'}
           align={'center'}
           flex={1}>
-          <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
+          <Icon color={'secondary-gold.600'} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
     </Link>
@@ -201,60 +203,50 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: 'Inspiration',
+    label: 'Catalogue de produits',
+    href: '/catalogue',
+  },
+  {
+    label: 'Contact',
+    href: '/contact',
+  },
+  {
+    label: 'En savoir plus',
     children: [
       {
-        label: 'Explore Design Work',
-        subLabel: 'Trending Design to inspire you',
-        href: '#',
+        label: 'Nos engagements',
+        subLabel: 'Découvrez les engagements de Court-Circuit Voltaire en matière d\'environnement',
+        href: '/nos-engagements',
       },
       {
-        label: 'New & Noteworthy',
-        subLabel: 'Up-and-coming Designers',
-        href: '#',
+        label: 'Nos activités',
+        subLabel: 'Nous proposons bon nombre d\'activités que vous pourrez retrouver sur cette page',
+        href: '/nos-activites',
       },
     ],
-  },
-  {
-    label: 'Find Work',
-    children: [
-      {
-        label: 'Job Board',
-        subLabel: 'Find your dream design job',
-        href: '#',
-      },
-      {
-        label: 'Freelance Projects',
-        subLabel: 'An exclusive list for contract work',
-        href: '#',
-      },
-    ],
-  },
-  {
-    label: 'Learn Design',
-    href: '#',
-  },
-  {
-    label: 'Hire Designers',
-    href: '#',
-  },
+  }
 ];
+
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [cart] = useRecoilState(cartState);
+  const bgColor = useColorModeValue('gray.100', 'gray.900');
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>Logo</Box>
-          
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav />
+      <Box backgroundColor={bgColor} px={4}>
+        <Flex h={24} alignItems={'center'} justifyContent={'space-between'}>
+          <Flex className="w-full h-full">
+            <Image className='w-24 h-24 object-contain' src={logo} alt={'logo'} width={110} height={110} />
+
+            <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+              <DesktopNav />
+            </Flex>
+
           </Flex>
 
-          <Flex alignItems={'center'}>
+          <Flex alignItems={'center'} justifyItems={'center'}>
             <Stack direction={'row'} spacing={7}>
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
