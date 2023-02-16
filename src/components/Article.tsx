@@ -46,10 +46,9 @@ export default function Article(props: ArticleProps) {
       router.push("/produit/" + props.id);
     } else {
       const jtwl = await supabaseBrowser.auth.getSession();
-      console.log(jtwl);
-      
-      const id = "0026e160-811a-44c4-97d2-77b6193da798";
-      let idCM = "";
+      if (!jtwl.data.session) return;
+      const id = jtwl.data.session.user.id;
+      let idCM;
       const { data, error } = await supabaseBrowser
         .from("commande")
         .select("*")
