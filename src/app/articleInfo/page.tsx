@@ -22,7 +22,6 @@ export default function articleInfo() {
   const addToCart = () => {
     setCart(prevState => [...cart, params]);
   }
-  console.log(cart);
 
   useEffect(() => {
     const fetchProduit = async () => {

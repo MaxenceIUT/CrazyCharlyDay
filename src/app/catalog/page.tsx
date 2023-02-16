@@ -25,6 +25,7 @@ import supabase from "@/utils/supabase-browser";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/../lib/database.types";
 import { RecoilRoot } from "recoil";
+import { FaSearch } from "react-icons/fa";
 const CFaSearch = chakra(FaSearch);
 
 let indexMax: Promise<number> = Promise.resolve(1);
@@ -143,6 +144,7 @@ export default function Catalogue() {
             <WrapItem key={product.id} py={5}>
               <Article
                 id={product.id}
+                categorie={product.categorie}
                 nom={product.nom}
                 description={product.description}
                 prix={product.prix}
