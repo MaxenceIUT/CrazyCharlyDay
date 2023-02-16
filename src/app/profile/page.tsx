@@ -6,14 +6,14 @@ import {
   Button,
   InputGroup,
   Stack,
-  InputLeftElement,
   chakra,
   Box,
   Link,
-  Avatar,
+  Text,
+  useColorModeValue,
+  HStack,
   FormControl,
-  FormHelperText,
-  InputRightElement,
+  FormLabel,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaPhoneAlt } from "react-icons/fa";
 const CFaUserAlt = chakra(FaUserAlt);
@@ -32,14 +32,15 @@ export default function profile() {
 
   const [profile, setProfile] = useState({
     id: "",
-    nom: null,
-    prenom: null,
-    telephone: null,
+    nom: "",
+    prenom: "",
+    telephone: "",
   } as Profile);
 
   useEffect(() => {
     const fetchProfile = async () => {
       const jtwl = await supabase.auth.getSession();
+      if (jtwl.data.session == null) router.push("/login");
       const { data, error } = await supabase.from("profile").select();
       if (!data) return;
       setProfile(data[0] as unknown as Profile);
@@ -73,70 +74,59 @@ export default function profile() {
   return (
     <div>
       <Flex
-        flexDirection="column"
-        width="100wh"
-        height="100vh"
-        backgroundColor="gray.200"
-        justifyContent="center"
-        alignItems="center"
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={useColorModeValue("gray.50", "gray.800")}
       >
-        <Stack
-          flexDir="column"
-          mb="2"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Avatar bg="teal.500" />
-          <Heading color="teal.400">Mettre à jour le profil</Heading>
-          <Box minW={{ base: "90%", md: "468px" }}>
-            <form onSubmit={handleUpdate}>
-              <Stack
-                spacing={4}
-                p="1rem"
-                backgroundColor="whiteAlpha.900"
-                boxShadow="md"
-              >
-                <FormControl isRequired>
+        <form onSubmit={handleUpdate}>
+          <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+            <Stack align={"center"}>
+              <Heading fontSize={"4xl"} textAlign={"center"}>
+                Mettre à jour ton profil
+              </Heading>
+              <Text fontSize={"lg"} color={"gray.600"}>
+                to enjoy all of our cool features ✌️
+              </Text>
+            </Stack>
+            <Box
+              rounded={"lg"}
+              bg={useColorModeValue("white", "gray.700")}
+              boxShadow={"lg"}
+              p={8}
+            >
+              <Stack spacing={4}>
+                <HStack>
+                  <Box>
+                    <FormControl id="firstName" isRequired>
+                      <FormLabel>Prenom</FormLabel>
+                      <Input
+                        type="text"
+                        id="prenom"
+                        defaultValue={
+                          !profile.prenom ? undefined : profile.prenom
+                        }
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box>
+                    <FormControl id="lastName">
+                      <FormLabel>Nom</FormLabel>
+                      <Input
+                        type="text"
+                        id="nom"
+                        defaultValue={
+                          profile.nom == null ? undefined : profile.nom
+                        }
+                      />
+                    </FormControl>
+                  </Box>
+                </HStack>
+                <FormControl id="telephone">
+                  <FormLabel>Telephone</FormLabel>
                   <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<CFaUserAlt color="gray.300" />}
-                    />
                     <Input
-                      type="nom"
-                      placeholder="Nom"
-                      id="nom"
-                      defaultValue={
-                        profile.nom == null ? undefined : profile.nom
-                      }
-                    />
-                  </InputGroup>
-                </FormControl>
-                <FormControl isRequired>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<CFaUserAlt color="gray.300" />}
-                    />
-                    <Input
-                      type="prenom"
-                      placeholder="Prenom"
-                      id="prenom"
-                      defaultValue={
-                        profile.prenom == null ? undefined : profile.prenom
-                      }
-                    />
-                  </InputGroup>
-                </FormControl>
-                <FormControl>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<PhoneIcon color="gray.300" />}
-                    />
-                    <Input
-                      type="telephone"
-                      placeholder="Telephone"
+                      type="tel"
                       id="telephone"
                       defaultValue={
                         profile.telephone == null
@@ -146,19 +136,32 @@ export default function profile() {
                     />
                   </InputGroup>
                 </FormControl>
-                <Button
-                  borderRadius={0}
-                  type="submit"
-                  variant="solid"
-                  colorScheme="teal"
-                  width="full"
-                >
-                  Mettre à jour
-                </Button>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                    type="submit"
+                  >
+                    Mettre à jour
+                  </Button>
+                </Stack>
+
+                <Stack pt={6}>
+                  <Text align={"center"}>
+                    Déjà inscrit ? <Link onClick={() => {
+                        router.push('/login')
+                    }} color={"blue.400"}>Login</Link>
+                  </Text>
+                </Stack>
               </Stack>
-            </form>
-          </Box>
-        </Stack>
+            </Box>
+          </Stack>
+        </form>
       </Flex>
     </div>
   );
