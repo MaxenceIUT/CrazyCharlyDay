@@ -85,9 +85,6 @@ export default function SmallCentered() {
             <SocialButton label={'FaceBook'} href={'https://www.facebook.com/courtcircuitVoltaire/'}>
               <FaFacebook />
             </SocialButton>
-            <SocialButton label={'YouTube'} href={'#'}>
-              <FaYoutube />
-            </SocialButton>
             <SocialButton label={'Instagram'} href={'https://www.instagram.com/court_circuit_nancy/'}>
               <FaInstagram />
             </SocialButton>

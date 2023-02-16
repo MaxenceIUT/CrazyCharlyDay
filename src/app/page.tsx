@@ -19,6 +19,7 @@ import {
   Flex,
   Avatar,
   Container,
+  LinkOverlay,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
@@ -129,17 +130,20 @@ export default function Home() {
             alignSelf={"center"}
             position={"relative"}
           >
-            <Button
-              colorScheme={"green"}
-              bg={"green.400"}
-              rounded={"full"}
-              px={6}
-              _hover={{
-                bg: "green.500",
-              }}
-            >
-              Boutique
-            </Button>
+            <LinkOverlay href={'catalogue'}>
+              <Button
+                colorScheme={"green"}
+                bg={"green.400"}
+                rounded={"full"}
+                px={6}
+                _hover={{
+                  bg: "green.500",
+                }}
+                
+              >
+                Boutique
+              </Button>
+            </LinkOverlay>
           </Stack>
         </Stack>
       </div>
