@@ -19,6 +19,7 @@ import {
   chakra,
 } from "@chakra-ui/react";
 
+import NextLink from "next/link";
 import supabase from "@/utils/supabase-browser";
 import { useRouter } from "next/navigation";
 
@@ -92,10 +93,10 @@ export default function Login() {
                     type={showPassword ? "text" : "password"}
                   />
                   <InputRightElement h={"full"} marginRight="1">
-                      <Button size="sm" onClick={handleShowClick}>
-                        {showPassword ? <HideIcon/> : <ShowIcon/>}
-                      </Button>
-                    </InputRightElement>
+                    <Button size="sm" onClick={handleShowClick}>
+                      {showPassword ? <HideIcon /> : <ShowIcon />}
+                    </Button>
+                  </InputRightElement>
                 </InputGroup>
                 <FormErrorMessage>Erreur login invalides</FormErrorMessage>
               </FormControl>
@@ -118,6 +119,11 @@ export default function Login() {
                 >
                   Se connecter
                 </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={"center"}>
+                  Pas encore inscrit ? <Link as={NextLink} href="/register" color={"blue.400"}>S'inscrire</Link>
+                </Text>
               </Stack>
             </Stack>
           </form>

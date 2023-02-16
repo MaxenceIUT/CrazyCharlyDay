@@ -19,6 +19,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import supabase from "@/utils/supabase-browser";
+import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 
 import { FaEyeSlash, FaEye } from "react-icons/fa";
@@ -125,7 +126,7 @@ export default function Login() {
 
                 <Stack pt={6}>
                   <Text align={"center"}>
-                    Déjà un compte ? <Link href="/login" color={"blue.400"}>Se connecter</Link>
+                    Déjà un compte ? <Link as={NextLink} href="/login" color={"blue.400"}>Se connecter</Link>
                   </Text>
                 </Stack>
               </Stack>
