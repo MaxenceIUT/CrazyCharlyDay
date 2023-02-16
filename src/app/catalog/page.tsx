@@ -123,7 +123,6 @@ export default function Catalogue() {
           {products.map((product: Produit) => (
             <WrapItem key={product.id}>
               <Article
-                id={product.id}
                 nom={product.nom}
                 description={product.description}
                 prix={product.prix}
