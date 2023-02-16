@@ -3,24 +3,21 @@
 import { useEffect, useState } from "react";
 import {
   Flex,
-  Heading,
-  Input,
-  Button,
-  InputGroup,
-  Stack,
-  InputLeftElement,
-  chakra,
   Box,
-  Link,
-  Avatar,
   FormControl,
-  FormHelperText,
+  FormLabel,
+  Input,
+  Stack,
+  Link,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
   InputRightElement,
+  InputGroup,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
 
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
 import supabase from "@/utils/supabase-browser";
 import { useRouter } from "next/navigation";
 
@@ -29,102 +26,101 @@ export default function Login() {
 
   const alreadysignin = async () => {
     const jtwl = await supabase.auth.getSession();
-    if (jtwl) router.push("/profile");
+    if (jtwl.data.session) router.push("/profile");
   };
-  
+
   useEffect(() => {
     alreadysignin();
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError(false);
     console.log(e.target.email.value);
     console.log(e.target.password.value);
-    await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: e.target.email.value,
       password: e.target.password.value,
     });
+    if (error) setError(true);
+    else router.push("/profile");
   };
 
   return (
     <Flex
-      flexDirection="column"
-      width="100wh"
-      height="100vh"
-      backgroundColor="gray.200"
-      justifyContent="center"
-      alignItems="center"
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack
-        flexDir="column"
-        mb="2"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Avatar bg="teal.500" />
-        <Heading color="teal.400">Bienvenue</Heading>
-        <Box minW={{ base: "90%", md: "468px" }}>
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Connecte toi </Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
+            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
+          </Text>
+        </Stack>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
           <form onSubmit={handleSubmit}>
-            <Stack
-              spacing={4}
-              p="1rem"
-              backgroundColor="whiteAlpha.900"
-              boxShadow="md"
-            >
-              <FormControl>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<CFaUserAlt color="gray.300" />}
-                  />
-                  <Input type="email" placeholder="Adresse email" id="email" />
-                </InputGroup>
+            <Stack spacing={4}>
+              <FormControl id="email" isRequired>
+                <FormLabel>Email address</FormLabel>
+                <Input
+                  type="email"
+                  id="email"
+                  errorBorderColor="red.300"
+                  isInvalid={error}
+                />
               </FormControl>
-              <FormControl>
+              <FormControl id="password" isRequired isInvalid={error}>
+                <FormLabel>Password</FormLabel>
                 <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    color="gray.300"
-                    children={<CFaLock color="gray.300" />}
-                  />
                   <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Mot de passe"
+                    errorBorderColor="red.300"
                     id="password"
+                    type={showPassword ? "text" : "password"}
                   />
-                  <InputRightElement width="4.5rem">
+                  <InputRightElement h={"full"}>
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
                       {showPassword ? "Hide" : "Show"}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-                <FormHelperText textAlign="right">
-                  <Link>Mot de passe oublié</Link>
-                </FormHelperText>
+                <FormErrorMessage>Erreur login invalides</FormErrorMessage>
               </FormControl>
-              <Button
-                borderRadius={0}
-                type="submit"
-                variant="solid"
-                colorScheme="teal"
-                width="full"
-              >
-                Se connecter
-              </Button>
+              <Stack spacing={10}>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                >
+                  <Link color={"blue.400"}>Forgot password?</Link>
+                </Stack>
+                <Button
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                  type="submit"
+                >
+                  Sign in
+                </Button>
+              </Stack>
             </Stack>
           </form>
         </Box>
       </Stack>
-      <Box>
-        Nouveau dans le coin ?{" "}
-        <Link color="teal.500" href="../createAccount">
-          S'inscrire
-        </Link>
-      </Box>
     </Flex>
   );
 }
