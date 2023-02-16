@@ -7,9 +7,11 @@ import { useRecoilState } from "recoil";
 import supabaseBrowser from "@/utils/supabase-browser";
 import { Stack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useState } from "react";
+import ArticlePanier from "@/components/ArticlePanier";
 
 const Cart = () => {
   const [cart, setCart] = useState([] as Array<any>);
+  const [cartState, setCartState] = useState([] as Array<any>);
 
   useEffect(() => {
     const fetch = async () => {
@@ -26,6 +28,7 @@ const Cart = () => {
         .select()
         .eq("id_commande", idCommande.data[0].idCM);
       let articles = [];
+      setCartState(data);
       await data.forEach(async (element: { id_produit: any }) => {
         let article = await supabaseBrowser
           .from("produit")
@@ -49,14 +52,22 @@ const Cart = () => {
             <Wrap spacing="30px" justify="center">
               {cart.map((article) => (
                 <WrapItem key={article.id}>
-                  <Article
+                  <ArticlePanier
                     key={article.id}
                     id={article.id}
                     categorie={article.categorie}
                     nom={article.nom}
-                    description={article.description}
+                    quantite={
+                      cartState.find((e) => e.id_produit == article.id).quantite
+                    }
                     prix={article.prix}
                     image={article.image}
+                    trashedFonction={() => {
+                        setCartState(cartState.filter((e) => e.id_produit != article.id));
+                        setCart(cart.filter((e) => e.id != article.id));
+                        supabaseBrowser.from("panier").delete().eq("id_produit", article.id);
+                        
+                    }}
                   />
                 </WrapItem>
               ))}
