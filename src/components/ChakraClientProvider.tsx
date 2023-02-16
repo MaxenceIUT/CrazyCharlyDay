@@ -7,6 +7,8 @@ import Header from "./Header";
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
+  initialColorMode: 'light',
+  useSystemColorMode: true,
   colors: {
     "primary-green": {
       50: "#f0fff4",
