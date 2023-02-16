@@ -59,8 +59,10 @@ export default function Article(props: ArticleProps) {
           .from("commande")
           .insert({ idUser: id, termine: false })
           .select();
+        if (!data) return;
         idCM = data[0].idCM;
       } else {
+        if (!data[0].idCM) return;
         idCM = data[0].idCM;
       }
       // setCart(prevState => [...cart, props]);

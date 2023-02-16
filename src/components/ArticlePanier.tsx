@@ -63,6 +63,7 @@ export default function Article(props: ArticleProps) {
         if (!data) return;
         idCM = data[0].idCM;
       } else {
+        if (!data) return;
         idCM = data[0].idCM;
       }
       // setCart(prevState => [...cart, props]);
