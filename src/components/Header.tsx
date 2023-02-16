@@ -254,7 +254,14 @@ export default function Header() {
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-
+              <Stack direction='row' spacing={4} align='center'>
+                <Button as={NextLink} href="/login" colorScheme='teal' variant='solid'>
+                  Se connecter
+                </Button>
+                <Button as={NextLink} href="/register" colorScheme='teal' variant='outline'>
+                  S'inscrire
+                </Button>
+              </Stack>
               <Menu>
                 <MenuButton
                   as={Button}
